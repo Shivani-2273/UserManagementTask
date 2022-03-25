@@ -1,0 +1,10 @@
+DAO\UserDAOClass.class
+services\UserServiceImpl.class
+utility\MyConnection.class
+DAO\UserDAOInterface.class
+services\UserServiceInterface.class
+controller\UserLogin.class
+utility\Encryption_Decryption.class
+model\User.class
+controller\UserRegister.class
+model\Address.class
