@@ -27,5 +27,16 @@
     <servlet-name>UserRegister</servlet-name>
     <url-pattern>/RegisterURL</url-pattern>
   </servlet-mapping>
+  
+   <servlet>
+    <description></description>
+    <display-name>forgotPassword</display-name>
+    <servlet-name>forgotPassword</servlet-name>
+    <servlet-class>controller.forgotPassword</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>forgotPassword</servlet-name>
+    <url-pattern>/forgotPassword</url-pattern>
+  </servlet-mapping>
     
 </web-app>

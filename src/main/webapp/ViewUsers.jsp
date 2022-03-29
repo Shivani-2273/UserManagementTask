@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@page import="com.usermanagement.model.User"%>
 <!DOCTYPE html>
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
 <head>  
@@ -64,9 +65,10 @@
 <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-<jsp:include page="Header.jsp" /> 
-	<div class="flex h-screen bg-gray-50 dark:bg-gray-900" style="height:80vh"
+
+	<div class="flex flex-row w-full h-screen bg-gray-50 dark:bg-gray-900" style="height:100vh"
 		:class="{ 'overflow-hidden': isSideMenuOpen}">
+		
 		<!-- Desktop sidebar -->
 		<aside
 			class="z-20 flex-shrink-0 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block">
@@ -92,13 +94,15 @@
 				<ul>
 					<li class="relative px-6 py-3"><a
 						class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-						href="#"> <svg class="w-5 h-5" aria-hidden="true"
+						href="viewUsers"> <svg class="w-5 h-5" aria-hidden="true"
 								fill="none" stroke-linecap="round" stroke-linejoin="round"
 								stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                   <path
 									d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
                 </svg> <span class="ml-4">View Users</span>
 					</a></li>
+				</ul>
+				<ul>
 					<li class="relative px-6 py-3"><a
 						class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
 						href="#"> <svg class="w-5 h-5" aria-hidden="true" fill="none"
@@ -109,6 +113,19 @@
                 </svg> <span class="ml-4">Add Users</span>
 					</a></li>
 				</ul>
+				<ul>
+					<li class="relative px-6 py-3"><a
+						class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+						href="LoginInfo.jsp"> <svg class="w-5 h-5" aria-hidden="true"
+								fill="none" stroke-linecap="round" stroke-linejoin="round"
+								stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                  <path
+									d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                </svg> <span class="ml-4">Login Information</span>
+					</a>
+					</li>
+				</ul>
+				
 				<ul>
 				<li class="relative px-6 py-3"><a
 										class="inline-flex items-center text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
@@ -166,7 +183,7 @@
 				<ul>
 				<li class="relative px-6 py-3"><a
 						class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-						href=""> <svg class="w-5 h-5" aria-hidden="true"
+						href="viewUsers"> <svg class="w-5 h-5" aria-hidden="true"
 								fill="none" stroke-linecap="round" stroke-linejoin="round"
 								stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                   <path
@@ -188,6 +205,19 @@
 					
 			</ul>
 			<ul>
+				<li class="relative px-6 py-3"><a
+						class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+						href="LoginInfo.jsp"> <svg class="w-5 h-5" aria-hidden="true"
+								fill="none" stroke-linecap="round" stroke-linejoin="round"
+								stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                  <path
+									d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                </svg> <span class="ml-4">Login Information</span>
+					</a></li>
+					</ul>
+			
+				<ul>
+			<ul>
 					
 					<li class="relative px-6 py-3"><a
 						class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
@@ -204,10 +234,12 @@
 		
 			</div>
 		</aside>
-		<div class="flex flex-col flex-1">
+		
+		<div class="flex flex-col w-full h-screen">
+		<jsp:include page="Header.jsp" /> 
 			<header class="">
 				<div
-					class="container flex items-center justify-between h-full px-6 mx-auto text-purple-600 dark:text-purple-300">
+					class="container h-full px-6 mx-auto text-purple-600 dark:text-purple-300">
 					<!-- Mobile hamburger -->
 					<button
 						class="p-1 mr-5 -ml-1 rounded-md md:hidden focus:outline-none focus:shadow-outline-purple"
@@ -222,13 +254,12 @@
 					
 				</div>
 			</header>
-			<main class="h-full overflow-y-auto">
-				<div
-					class="ml-4 mr-4 mt-16">
+			<main class="h-screen  w-4/5  mx-auto  ">
+				
 			
-					<div class="datatable">
+					<div class="datatable w-full mx-auto mt-5 overflow-x-auto">
 
-						<table id="daTable" class="table table-bordered w-full">
+						<table id="daTable" class="table overflow-x-auto">
 							<thead>
 								<tr>
 									<th>First Name</th>
@@ -236,42 +267,63 @@
 									<th>Email</th>
 									<th>Contact No</th>
 									<th>Gender</th>
-									<th>Address</th>
-									<th>City</th>
-									<th>State</th>
-									<th>Pincode</th>
+									<th>Birth Date</th>
+									<th>Languages</th>
 									<th>Action</th>
 									
 								</tr>
 							</thead>
 							<tbody>
-								
+								<c:forEach items="${UserList}" var="UserList">
 									<tr>
-										<td>Shivani</td>
-										<td>Hemnani</td>
-										<td>shiv@test.com</td>
-										<td>9265113899</td>
-										<td>Female</td>
-										<td>B-607 Prathmesh Residency</td>
-										<td>Ahmedabad</td>
-										<td>Gujarat</td>
-										<td>382345</td>
-										<td><a href=""><i class="fa-solid fa-pen-to-square fa-lg"></i></a>&nbsp;&nbsp;
-										<a href=""><i class="fa-solid fa-trash fa-lg"></i></a></td>
+										<td>${UserList.firstName}</td>
+										<td>${UserList.lastName}</td>
+										<td>${UserList.email}</td>
+										<td>${UserList.contactNo}</td>
+										<td>${UserList.gender}</td>
+										<td>${UserList.birthDate}</td>
+										<td>${UserList.languages}</td>
+										<td><a href="#"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>&nbsp;&nbsp;
+										<i class="fa-solid fa-trash fa-lg delete"></i></td>
 									</tr>
+									</c:forEach>
 							</tbody>
 
 						</table>
-					</div>
+				
 				
 			</div>
 			</main>
 			
 			
-			
+			<jsp:include page="Footer.jsp" />
 			
 		</div>
+		
 		</div>
-		<jsp:include page="Footer.jsp" />
+<script>
+
+$(document).ready(function(){
+	$(".delete").click(function(){
+		var row=this;
+		var userId= +this.id;
+		$.ajax({
+			url:"deleteUser",
+			type:"post",
+			data:({
+				userId:userId,
+			}),
+			success:function(response){
+				$(row).closest('tr').fadeOut(200,function(){ 
+				    $(this).remove(); 
+				 }); 
+			}
+		});
+	});
+
+	
+});
+
+</script>		
 </body>
 </html>

@@ -291,7 +291,9 @@
                 alert('you must have at least one item.');
             }
         };
-
+        
+        
+ 
         var _count = function() {
             return $('.' + settings.cloneContainer).closest('#' + settings.mainContainerId).find('.'+settings.cloneContainer).length;
         };

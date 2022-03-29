@@ -46,12 +46,30 @@
 <script src="assets/js/init-alpine.js"></script>
 </head>
 <body>
-	<form action="RegisterURL" method="POST" class="w-1/2 p-5 mx-auto bg-white ">
+
+
+
+	<form action="RegisterURL" method="POST" class="w-full md:w-1/2 p-5 mx-auto bg-white border-2 border-gray-400 shadow rounded-lg m-5 ">
 		<h1 class="text-xl font-bold text-gray-1200 dark:text-gray-200">
 			Create account</h1>
 
+		<!-- <div class="w-full">
+			<label class="block mt-2 mt-4 mb-2 text-md font-semibold"> <span
+				class="text-gray-700 dark:text-gray-400">Upload Image</span><br/>
+				<input type="file" name="image" class="mt-2 mr-5" name="image">
+			</label>
+		</div> -->
+		<div class="flex flex-row w-full ">
+		<label class=" mt-2 mt-4 mb-2 text-md font-semibold"> <span
+				class="text-gray-700 dark:text-gray-400">Upload Image</span><br/>
+                   		   <input type="file" name="image" onchange="readURL(this);"  class="self-start w-full p-1 mt-1 text-md focus:outline-none focus:border-none">
+                   		   </label>
+                          <image id="blah" src="#" alt="" class="mx-auto h-170"  />
+                          
+                      </div>
 
-		<div class="flex flex-row gap-8">
+		<div class="flex flex-col md:flex-row gap-4 md:gap-8">
+		
 			<div class="w-full">
 				<label class="block mt-2 mt-4 text-md font-semibold"> <span
 					class="text-gray-700 dark:text-gray-400">First Name</span> <input
@@ -73,7 +91,7 @@
 			</div>
 		</div>
 
-		<div class="flex flex-row gap-8">
+		<div class="flex  flex-col md:flex-row gap-8">
 			<div class="w-full">
 				<label class="block mt-2 mt-4 text-md font-semibold"> <span
 					class="text-gray-700 dark:text-gray-400">Email</span> <input
@@ -95,7 +113,7 @@
 			</div>
 		</div>
 
-		<div class="flex flex-row gap-8">
+		<div class="flex  flex-col md:flex-row gap-8">
 			<div class="w-full">
 				<label class="block mt-2 mt-4 text-md font-semibold"> <span
 					class="text-gray-700 dark:text-gray-400">Password</span> <input
@@ -115,7 +133,7 @@
 			</div>
 		</div>
 
-		<div class="flex flex-row gap-8">
+		<div class="flex  flex-col md:flex-row gap-8">
 			<div class="w-full">
 				<label for="" class="block mt-6 mb-2 text-md font-semibold">
 					<span class="text-gray-700 mr-8 dark:text-gray-400">Gender</span><br />
@@ -155,17 +173,23 @@
 			<div class="panel card container-item mb-2">
 				<div class="panel-body">
 					<div class="panel-body pl-2 pr-2 pb-2">
-
+					<input type="radio" id="default" class="mt-3 hidden" name="default"
+					value="default" >
+					
+					<span class="text-gray-700 mr-4 dark:text-gray-400 font-semibold hidden"> Default</span>
+					
+					
+						
 						<label class="block mt-2 text-md font-semibold"> <span
 							class="text-gray-700 dark:text-gray-400">Street Address</span> <input
-							type="text" name="Address[0][Street_Address]"
+							type="text" name="Address[]" id="address_0"
 							class="w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" />
 						</label>
 						<div class="flex flex-row gap-8">
 							<div class="w-full">
 								<label for=""
 									class="block mt-2 text-gray-700 dark:text-gray-400 font-semibold">City</label>
-								<select id="city" name="Address[0][City]"
+								<select id="city" name="City[]" id="city_0"
 									class="w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"">
 									<option value="">Select your city</option>
 									<option value="Ahmedabad">Ahmedabad</option>
@@ -178,13 +202,13 @@
 							<div class="w-full">
 								<label for=""
 									class="block mt-2 text-gray-700 dark:text-gray-400 font-semibold">State</label>
-								<select id="state" name="Address[0][State]"
+								<select id="state" name="State[]" id="state_0"
 									class="w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"">
 									<option value="">Select your state</option>
-									<option value="Ahmedabad">Gujarat</option>
-									<option value="Rajkot">Rajsthan</option>
-									<option value="Surat">Bihar</option>
-									<option value="Gandhinagar">Punjab</option>
+									<option value="Gujarat">Gujarat</option>
+									<option value="Rajsthan">Rajsthan</option>
+									<option value="Bihar">Bihar</option>
+									<option value="Punjab">Punjab</option>
 								</select> <span class="italic text-red-500" id="citySpan"></span>
 
 							</div>
@@ -194,15 +218,15 @@
 							<div class="w-full">
 								<label class="block mt-2 mt-4 text-md font-semibold"> <span
 									class="text-gray-700 dark:text-gray-400">Postal Code</span> <input
-									type="number" name="Address[0][Pin]"
+									type="number" name="Pin[]" id="pin_0"
 									class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
 									placeholder="xxxxxx" />
 								</label>
 							</div>
-							<div class="w-full">
-								<div>
+							<div class="w-full grid content-center justify-center">
+								<div class="mt-8">
 									<a href="javascript:void(0)"
-										class="remove-item btn btn-sm btn-danger remove-social-media mt-12 h-10 w-1/2 text-lg font-semibold">Remove</a>
+										class="remove-item bg-red-500 text-white px-4 py-2 rounded-md">Remove</a>
 								</div>
 							</div>
 
@@ -214,25 +238,12 @@
 			</div>
 		</div>
 
-		<div>
-			<a class="btn btn-success btn-sm mt-3 text-lg font-semibold" id="add-more" href="javascript:;"
+		<div class="grid w-1/2 justify-start">
+			<a class="px-4 py-2 bg-green-400 text-white rounded " id="add-more" href="javascript:;"
 				role="button"><i class="fa fa-plus"></i> Add more address</a>
+			
 
 		</div>
-		
-		
-		
-		<div class="w-full">
-			<label class="block mt-2 mt-4 mb-2 text-md font-semibold"> <span
-				class="text-gray-700 dark:text-gray-400">Upload Image</span><br/>
-				<input type="file" name="image" class="mt-2 mr-5" name="image">
-			</label>
-
-		</div>
-
-
-
-	
 		<input type="submit" value="Register"
 								class="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
 		
@@ -247,6 +258,22 @@
 
 
 	</form>
+<script type="text/javascript">
+     function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah')
+                        .attr('src', e.target.result)
+                        .width(200)
+                        .height(200);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+</script>
 
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

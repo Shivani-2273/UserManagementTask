@@ -7,8 +7,9 @@
 <meta charset="ISO-8859-1">
 </head>
 <body>
- <div  style="background-color:lightblue;" class="footer-copyright text-center py-3">© 2022 Copyright:
-      <a href="https://mdbootstrap.com/education/bootstrap/"> Inexture.com</a>
-    </div>
+ 
+	<div class="border-t-2 h-24 border-b-0 border-l-0 border-r-0 border-gray-300 shadow grid content-center justify-center w-full">
+		<p>© 2022 Copyright:<a href="https://mdbootstrap.com/education/bootstrap/"> Inexture.com</a></p>
+	</div>
 </body>
 </html>

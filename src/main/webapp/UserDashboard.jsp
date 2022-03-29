@@ -33,8 +33,8 @@
 </head>
 
 <body>
-<jsp:include page="Header.jsp" /> 
-	<div class="flex h-screen bg-gray-50 dark:bg-gray-900" style="height:80vh"
+
+	<div class="flex flex-row w-full h-screen bg-gray-50 dark:bg-gray-900" style="height:100vh"
 		:class="{ 'overflow-hidden': isSideMenuOpen}">
 		<!-- Desktop sidebar -->
 		
@@ -146,7 +146,8 @@
 		
 			</div>
 		</aside>
-		<div class="flex flex-col flex-1">
+	<div class="flex flex-col w-full h-screen">
+	<jsp:include page="Header.jsp" /> 
 			<header class="">
 				<div
 					class="container flex items-center justify-between h-full px-6 mx-auto text-purple-600 dark:text-purple-300">
@@ -164,10 +165,13 @@
 					
 				</div>
 			</header>
+						<main class="h-screen  w-4/5  mx-auto  ">
+						</main>
+			<jsp:include page="Footer.jsp" />
+						
+						
 			</div>
 		
 		</div>
-		</div>
-		<jsp:include page="Footer.jsp" /> 
 </body>
 </html>

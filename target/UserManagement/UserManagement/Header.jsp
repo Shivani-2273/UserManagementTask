@@ -3,20 +3,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style>
-	h2{
-		font-size:30px;
-		text-align:center;
-		padding:20px;
-		background-color:lightblue;
-	}
-</style>
+
 <meta charset="ISO-8859-1">
 <title></title>
+<script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
 
-	<h2 >User Management System</h2>
+	<div class="border-b-2 h-24 border-t-0 border-l-0 border-r-0 border-gray-300 shadow grid content-center justify-center w-full">
+		<h2 class="text-2xl font-medium">User Management System</h2>
+	</div>
+	
 
 </body>
 </html>
