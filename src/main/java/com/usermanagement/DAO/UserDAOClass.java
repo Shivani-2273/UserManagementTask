@@ -26,7 +26,6 @@ public class UserDAOClass implements UserDAOInterface{
 	
 	@Override
 	public boolean userLogin(User obj) {
-		logger.info("User {}"+obj.toString());
 		try {
 			pstmt=connection.prepareStatement("select * from user where email=? and password=?");
 			pstmt.setString(1,obj.getEmail());

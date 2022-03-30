@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@page import="model.User"%>
+<%@page import="com.usermanagement.model.User"%>
 <!DOCTYPE html>
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
 <head>  
@@ -46,7 +46,10 @@
 </script>
 <script>
 	$(document).ready(function() {
-		$('#daTable').DataTable();
+		$('#daTable').DataTable({
+			"lengthMenu":[[5,10,50,-1],[5,10,50,"All"]]
+		});
+		
 	});
 </script>
 
@@ -284,7 +287,7 @@
 										<td>${UserList.birthDate}</td>
 										<td>${UserList.languages}</td>
 										<td><a href="#"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>&nbsp;&nbsp;
-										<i class="fa-solid fa-trash fa-lg delete"></i></td>
+										<i class="fa-solid fa-trash fa-lg delete" id="${UserList.userId}"></i></td>
 									</tr>
 									</c:forEach>
 							</tbody>
@@ -304,25 +307,27 @@
 <script>
 
 $(document).ready(function(){
-	$(".delete").click(function(){
-		var row=this;
-		var userId= +this.id;
-		$.ajax({
-			url:"deleteUser",
-			type:"post",
-			data:({
-				userId:userId,
-			}),
-			success:function(response){
-				$(row).closest('tr').fadeOut(200,function(){ 
-				    $(this).remove(); 
-				 }); 
-			}
-		});
+		$(document).on("click",".delete",function(){
+			var row=this;
+			var userId= +this.id;
+			alert(userId);
+			$.ajax({
+				url:"deleteUser",
+				type:"post",
+				data:({
+					userId:userId,
+				}),
+				success:function(response){
+					$(row).closest('tr').fadeOut(200,function(){ 
+					    $(this).remove(); 
+					 }); 
+				}
+			});	
+		})
+		
 	});
 
 	
-});
 
 </script>		
 </body>
