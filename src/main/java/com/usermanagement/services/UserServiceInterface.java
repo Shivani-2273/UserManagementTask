@@ -1,5 +1,6 @@
 package com.usermanagement.services;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
@@ -36,7 +37,7 @@ public interface UserServiceInterface {
 	 * @throws SQLException
 	 * @throws IOException
 	 */
-	public int addUser(User user) throws ClassNotFoundException, SQLException, IOException;
+	public int addUser(User user,InputStream image) throws ClassNotFoundException, SQLException, IOException;
 	
 	/**
 	 * 
@@ -71,5 +72,34 @@ public interface UserServiceInterface {
 	 * @throws ClassNotFoundException 
 	 */
 	public void resetPassword(User obj) throws ClassNotFoundException, SQLException;
+	
+	/**
+	 * 
+	 * @param startDate
+	 * @param endDate
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
+	 */
+	public List<User> getCSVFile(User user) throws ClassNotFoundException, SQLException;
+	
+	/**
+	 * 
+	 * @param obj
+	 * @param user_id
+	 * @return
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
+	 */
+	public List<Address> getDefaultAddress(Address obj,int user_id) throws ClassNotFoundException, SQLException;
+	
+	/**
+	 * 
+	 * @param obj
+	 * @param user_id
+	 * @return
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
+	 */
+	public List<Address> getOtherAddress(Address obj,int user_id) throws ClassNotFoundException, SQLException;
 
 }

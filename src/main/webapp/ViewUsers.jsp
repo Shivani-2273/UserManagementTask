@@ -279,7 +279,7 @@
 							<tbody>
 								<c:forEach items="${UserList}" var="UserList">
 									<tr>
-										<td>${UserList.firstName}</td>
+										<td><a href='addressInfo?user_id=${UserList.userId}'>${UserList.firstName}</a></td>
 										<td>${UserList.lastName}</td>
 										<td>${UserList.email}</td>
 										<td>${UserList.contactNo}</td>

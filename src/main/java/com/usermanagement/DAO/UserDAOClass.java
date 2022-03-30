@@ -1,6 +1,7 @@
 package com.usermanagement.DAO;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -55,10 +56,10 @@ public class UserDAOClass implements UserDAOInterface{
 	}
 
 	@Override
-	public int userRegister(User obj) throws IOException {
+	public int userRegister(User obj,InputStream image) throws IOException {
 		int id=0;
 		try {
-			pstmt=connection.prepareStatement("insert into user(first_name,last_name,email,password,contact_no,date_of_birth,language,gender,is_admin) values(?,?,?,?,?,?,?,?,0)");
+			pstmt=connection.prepareStatement("insert into user(first_name,last_name,email,password,contact_no,date_of_birth,language,gender,profile_image,is_admin) values(?,?,?,?,?,?,?,?,?,0)");
 			pstmt.setString(1, obj.getFirstName());
 			pstmt.setString(2, obj.getLastName());
 			pstmt.setString(3, obj.getEmail());
@@ -67,6 +68,7 @@ public class UserDAOClass implements UserDAOInterface{
 			pstmt.setString(6, obj.getBirthDate());
 			pstmt.setString(7, obj.getLanguages());
 			pstmt.setString(8, obj.getGender());
+			pstmt.setBlob(9, image);
 	
 			pstmt.executeUpdate();	
 			pstmt=connection.prepareStatement("select user_id from user");
@@ -152,6 +154,69 @@ public class UserDAOClass implements UserDAOInterface{
 			e.printStackTrace();
 		}
 		
+	}
+
+	public List<User> getCSVFile(User user) {
+		List<User> list=new ArrayList<User>();	
+		try {
+			pstmt=connection.prepareStatement("select first_name,last_name,updated_at from user");
+			ResultSet rs=pstmt.executeQuery();
+			while(rs.next()) {
+				user=new User();
+				user.setFirstName(rs.getString("first_name"));
+				user.setLastName(rs.getString("last_name"));
+				user.setUpdatedAt(rs.getString("updated_at"));
+				list.add(user);
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+		
+	}
+
+	@Override
+	public List<Address> getDefaultAddress(Address obj, int user_id) {
+		List<Address> list=new ArrayList<Address>();
+		try {
+			pstmt=connection.prepareStatement("select * from address where user_id =? and is_default=1");
+			pstmt.setInt(1, user_id);
+			ResultSet res=pstmt.executeQuery();
+			while(res.next()) {
+				obj=new Address();
+				obj.setAddressLine(res.getString("street_address_line"));
+				obj.setCity(res.getString("city"));
+				obj.setState(res.getString("state"));
+				obj.setPin(res.getString("pin"));
+				list.add(obj);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+		
+	}
+
+	@Override
+	public List<Address> getOtherAddress(Address obj, int user_id) {
+		List<Address> list=new ArrayList<Address>();
+		try {
+			pstmt=connection.prepareStatement("select * from address where user_id =? and is_default=0");
+			pstmt.setInt(1, user_id);
+			ResultSet res=pstmt.executeQuery();
+			while(res.next()) {
+				obj=new Address();
+				obj.setAddressLine(res.getString("street_address_line"));
+				obj.setCity(res.getString("city"));
+				obj.setState(res.getString("state"));
+				obj.setPin(res.getString("pin"));
+				list.add(obj);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 
 	

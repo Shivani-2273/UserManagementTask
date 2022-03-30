@@ -42,5 +42,16 @@
 		<url-pattern>/passwordURL</url-pattern>
 	</servlet-mapping>
 	
+		<servlet>
+		<description></description>
+		<display-name>GenerateCSV</display-name>
+		<servlet-name>GenerateCSV</servlet-name>
+		<servlet-class>com.usermanagement.controller.GenerateCSV</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GenerateCSV</servlet-name>
+		<url-pattern>/getCSV</url-pattern>
+	</servlet-mapping>
+	
 
 </web-app>

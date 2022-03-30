@@ -7,12 +7,33 @@ public class User {
 
 	private int userId;
 	private boolean isAdmin;
-	private String firstName,lastName,email,password,contactNo,gender,birthDate,languages;
+	private String firstName,lastName,email,password,contactNo,gender,birthDate,languages,createdAt,updatedAt;
 	
 	private InputStream image;
 
 	
 	public User() {}
+
+	
+	public User(int userId, boolean isAdmin, String firstName, String lastName, String email, String password,
+			String contactNo, String gender, String birthDate, String languages, String createdAt, String updatedAt,
+			InputStream image) {
+		super();
+		this.userId = userId;
+		this.isAdmin = isAdmin;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
+		this.contactNo = contactNo;
+		this.gender = gender;
+		this.birthDate = birthDate;
+		this.languages = languages;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+		this.image = image;
+	}
+
 
 	public  void setUserId(int userId) {
 		this.userId=userId;
@@ -88,13 +109,27 @@ public class User {
 	public InputStream getImage() {
 		return image;
 	}
+	public void setCreatedAt(String createdAt) {
+		this.createdAt=createdAt;
+	}
+	public String getCreatetAt() {
+		return createdAt;
+	} 
+	public void setUpdatedAt(String updatedAt) {
+		this.updatedAt=updatedAt;
+	}
+	public String getUpdatedAt() {
+		return updatedAt;
+	}
 
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", isAdmin=" + isAdmin + ", firstName=" + firstName + ", lastName=" + lastName
 				+ ", email=" + email + ", password=" + password + ", contactNo=" + contactNo + ", gender=" + gender
-				+ ", birthDate=" + birthDate + ", languages=" + languages + ", image=" + image + "]";
+				+ ", birthDate=" + birthDate + ", languages=" + languages + ", createdAt=" + createdAt + ", updatedAt="
+				+ updatedAt + ", image=" + image + "]";
 	}
+	
 	
 	
 }

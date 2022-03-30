@@ -1,6 +1,7 @@
 package com.usermanagement.controller;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -11,10 +12,12 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 import com.usermanagement.model.Address;
 import com.usermanagement.model.User;
@@ -24,6 +27,7 @@ import com.usermanagement.services.UserServiceImpl;
  * Servlet implementation class UserRegister
  */
 @WebServlet("/UserRegister")
+@MultipartConfig
 public class UserRegister extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -51,6 +55,10 @@ public class UserRegister extends HttpServlet {
 		user.setGender(request.getParameter("gender"));
 		user.setBirthDate(request.getParameter("birthDate"));	
 		
+		Part img_file=request.getPart("img");
+		InputStream image=img_file.getInputStream();
+		user.setImage(image);
+		
 		String languages="";
 		String[] lang=request.getParameterValues("language");
 		for(int i=0;i<lang.length;i++) {
@@ -70,7 +78,7 @@ public class UserRegister extends HttpServlet {
 		}
 		int userId = 0;
 		try {
-			userId = service.addUser(user);
+			userId = service.addUser(user,image);
 		} catch (ClassNotFoundException | SQLException | IOException e) {
 			e.printStackTrace();
 		}

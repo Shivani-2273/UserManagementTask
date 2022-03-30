@@ -1,6 +1,7 @@
 package com.usermanagement.services;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
@@ -26,9 +27,9 @@ public class UserServiceImpl implements UserServiceInterface {
 	}
 
 	@Override
-	public  int addUser(User obj) throws ClassNotFoundException, SQLException, IOException {
+	public  int addUser(User obj,InputStream image) throws ClassNotFoundException, SQLException, IOException {
 		UserDAOClass user=new UserDAOClass();
-		int userId=user.userRegister(obj);
+		int userId=user.userRegister(obj,image);
 		return userId;
 		
 	}
@@ -59,6 +60,28 @@ public class UserServiceImpl implements UserServiceInterface {
 		UserDAOClass user=new UserDAOClass();
 		user.resetPassword(obj);
 		
+	}
+
+	@Override
+	public List<User> getCSVFile(User obj) throws ClassNotFoundException, SQLException {
+		UserDAOClass user=new UserDAOClass();
+		List<User> list=user.getCSVFile(obj);
+		return list;
+		
+	}
+
+	@Override
+	public List<Address> getDefaultAddress(Address obj, int user_id) throws ClassNotFoundException, SQLException {
+		UserDAOClass user=new UserDAOClass();
+		List<Address> list=user.getDefaultAddress(obj,user_id);
+		return list;
+	}
+
+	@Override
+	public List<Address> getOtherAddress(Address obj, int user_id) throws ClassNotFoundException, SQLException {
+		UserDAOClass user=new UserDAOClass();
+		List<Address> list=user.getOtherAddress(obj,user_id);
+		return list;
 	}
 	
 	

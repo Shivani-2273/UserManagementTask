@@ -49,7 +49,7 @@
 
 
 
-	<form action="RegisterURL" method="POST" class="w-full md:w-1/2 p-5 mx-auto bg-white border-2 border-gray-400 shadow rounded-lg m-5 ">
+	<form action="RegisterURL" method="POST" enctype='multipart/form-data' class="w-full md:w-1/2 p-5 mx-auto bg-white border-2 border-gray-400 shadow rounded-lg m-5 ">
 		<h1 class="text-xl font-bold text-gray-1200 dark:text-gray-200">
 			Create account</h1>
 
@@ -62,7 +62,7 @@
 		<div class="flex flex-row w-full ">
 		<label class=" mt-2 mt-4 mb-2 text-md font-semibold"> <span
 				class="text-gray-700 dark:text-gray-400">Upload Image</span><br/>
-                   		   <input type="file" name="image" onchange="readURL(this);"  class="self-start w-full p-1 mt-1 text-md focus:outline-none focus:border-none">
+                   		   <input type="file" name="img" onchange="readURL(this);"  class="self-start w-full p-1 mt-1 text-md focus:outline-none focus:border-none">
                    		   </label>
                           <image id="blah" src="#" alt="" class="mx-auto h-170"  />
                           

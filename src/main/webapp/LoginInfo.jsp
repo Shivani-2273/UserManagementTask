@@ -248,21 +248,21 @@
 			</header>
 			<main class="h-screen  w-4/5  mx-auto  ">
 
-				<form action="" method=""
+				<form action="getCSV" method="POST"
 					class="w-full  p-3  bg-white border-2 border-gray-400 shadow rounded-lg m-5 ">
 
 					<div class="flex  flex-col md:flex-row gap-8">
 						<div class="w-full">
 							<label class="block mt-2 mt-4 text-md font-semibold"> <span
 								class="text-gray-700 dark:text-gray-400">Start Date</span> <input
-								type="date" name=""
+								type="date" name="startDate"
 								class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" />
 							</label>
 						</div>
 						<div class="w-full">
 							<label class="block mt-2 mt-4 text-md font-semibold"> <span
 								class="text-gray-700 dark:text-gray-400">End Date</span> <input
-								type="date" name=""
+								type="date" name="endDate"
 								class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" />
 							</label>
 						</div>
@@ -270,10 +270,11 @@
 						
 						
 					</div>
+					<input type="submit" value="Download CSV File" class="block  px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple download">
+								
 				</form>
 			
 			</main>
-					<a href="download" >Download CSV File</a>
 
 			<jsp:include page="Footer.jsp" />
 
