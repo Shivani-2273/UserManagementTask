@@ -1,6 +1,8 @@
 package com.usermanagement.controller;
 
 import java.io.IOException;
+import java.util.logging.Logger;
+
 import java.sql.SQLException;
 
 import javax.servlet.ServletException;
@@ -10,45 +12,34 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.usermanagement.services.UserServiceImpl;
+import com.usermanagement.services.UserService;
 
 /**
  * Servlet implementation class deleteUser
  */
-@WebServlet("/deleteUser")
-public class deleteUser extends HttpServlet {
+@WebServlet("/DeleteUser")
+public class DeleteUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public deleteUser() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+	private static Logger logger = Logger.getLogger(DeleteUser.class.getName());
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+
+	public DeleteUser() {
+		super();
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String userId=request.getParameter("userId");
-		UserServiceImpl service=new UserServiceImpl();
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		try {
-			service.deleteUser(userId);
+			String userId = request.getParameter("userId");
+			UserService userService = new UserServiceImpl();
+
+			userService.deleteUser(userId);
 		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
+			logger.info(e.toString());
+
 		}
-	}
-	
-	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 	}
 
 }

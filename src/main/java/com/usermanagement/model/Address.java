@@ -5,12 +5,15 @@ public class Address {
 
 	private int userId,addressId;
 	private String addressLine,city,state,pin;
-	
+	private boolean isDefault;
 	
 	public Address() {}
 	
 
-	public Address(int userId, int addressId, String addressLine, String city, String state, String pin) {
+	
+
+	public Address(int userId, int addressId, String addressLine, String city, String state, String pin,
+			boolean isDefault) {
 		super();
 		this.userId = userId;
 		this.addressId = addressId;
@@ -18,7 +21,11 @@ public class Address {
 		this.city = city;
 		this.state = state;
 		this.pin = pin;
+		this.isDefault = isDefault;
 	}
+
+
+
 
 	public void setAddressId(int addressId) {
 		this.addressId=addressId;
@@ -57,13 +64,24 @@ public class Address {
 	public void setPin(String pin) {
 		this.pin=pin;
 	}
+	public void setIsDefault(boolean isDefault) {
+		this.isDefault=isDefault;
+	}
+	public boolean getIsDefault() {
+		return isDefault;
+	}
+
+
 
 
 	@Override
 	public String toString() {
 		return "Address [userId=" + userId + ", addressId=" + addressId + ", addressLine=" + addressLine + ", city="
-				+ city + ", state=" + state + ", pin=" + pin + "]";
+				+ city + ", state=" + state + ", pin=" + pin + ", isDefault=" + isDefault + "]";
 	}
+	
+
+	
 	
 	
 }

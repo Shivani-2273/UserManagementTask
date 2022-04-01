@@ -21,6 +21,7 @@ import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import com.usermanagement.model.User;
 import com.usermanagement.services.UserServiceImpl;
+import com.usermanagement.services.UserService;
 
 /**
  * Servlet implementation class GenerateCSV
@@ -53,13 +54,13 @@ public class GenerateCSV extends HttpServlet {
 			throws ServletException, IOException {
 
 		User user = new User();
-		//String startDate = request.getParameter("startDate");
-		//String endDate = request.getParameter("endDate");
+		String startDate = request.getParameter("startDate");
+		String endDate = request.getParameter("endDate");
 
-		UserServiceImpl service = new UserServiceImpl();
-		try {
-			List<User> list = service.getCSVFile(user);
-
+		UserService service = new UserServiceImpl();
+		
+			List<User> list  ;
+			//service.getCSVFile(user)
 			File file = new File("S:\\UserLoginInfo_CSV\\Login.csv");
 			try {
 				FileWriter outputfile = new FileWriter(file);
@@ -74,9 +75,7 @@ public class GenerateCSV extends HttpServlet {
 
 			RequestDispatcher req = request.getRequestDispatcher("LoginInfo.jsp");
 			req.forward(request, response);
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		}
+		
 	}
 
 }

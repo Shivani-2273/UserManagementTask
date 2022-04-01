@@ -15,10 +15,10 @@ import javax.crypto.NoSuchPaddingException;
 import com.usermanagement.model.Address;
 import com.usermanagement.model.User;
 
-public interface UserDAOInterface {
+public interface UserDAO {
 
 	/**
-	 * 
+	 * This method will return true if login details are correct 
 	 * @param obj
 	 * @return
 	 * @throws NoSuchPaddingException
@@ -31,56 +31,35 @@ public interface UserDAOInterface {
 			NoSuchAlgorithmException, NoSuchPaddingException;
 
 	/**
-	 * 
+	 * This method will add details of user into user table of database
+	 * @param obj
+	 * @param image
+	 * @return
 	 * @throws IOException
 	 */
 	public int userRegister(User obj, InputStream image) throws IOException;
 
+	
 	/**
-	 * 
-	 * @param addr_obj
-	 */
-	public int addAddress(int userId, Address addr_obj);
-
-	/**
-	 * 
-	 * @param user
+	 * This method return list of all normal user
 	 * @return
 	 */
-	public List<User> getAllUser(User user);
+	public List<User> getAllUser();
 
 	/**
-	 * 
+	 * This method will delete user from table
 	 * @param userId
 	 */
 	public void deleteUser(String userId);
 
 	/**
-	 * 
+	 * This method will reset password of user
 	 * @param user
 	 */
 	public void resetPassword(User user);
 
-	/**
-	 * 
-	 * @param startDate
-	 * @param endDate
-	 */
-	public List<User> getCSVFile(User user);
+	
+	//public List<User> getCSVFile(User user);
 
-	/**
-	 * 
-	 * @param obj
-	 * @param user_id
-	 * @return
-	 */
-	public List<Address> getDefaultAddress(Address obj, int user_id);
-
-	/**
-	 * 
-	 * @param obj
-	 * @param user_id
-	 * @return
-	 */
-	public List<Address> getOtherAddress(Address obj, int user_id);
+	
 }

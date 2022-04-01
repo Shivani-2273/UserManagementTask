@@ -47,7 +47,7 @@
 <script>
 	$(document).ready(function() {
 		$('#daTable').DataTable({
-			"lengthMenu":[[5,10,50,-1],[5,10,50,"All"]]
+			"lengthMenu":[[2,5,10,-1],[2,5,10,"All"]]
 		});
 		
 	});
@@ -97,7 +97,7 @@
 				<ul>
 					<li class="relative px-6 py-3"><a
 						class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-						href="viewUsers"> <svg class="w-5 h-5" aria-hidden="true"
+						href="ViewUsers"> <svg class="w-5 h-5" aria-hidden="true"
 								fill="none" stroke-linecap="round" stroke-linejoin="round"
 								stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                   <path
@@ -186,7 +186,7 @@
 				<ul>
 				<li class="relative px-6 py-3"><a
 						class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-						href="viewUsers"> <svg class="w-5 h-5" aria-hidden="true"
+						href="ViewUsers"> <svg class="w-5 h-5" aria-hidden="true"
 								fill="none" stroke-linecap="round" stroke-linejoin="round"
 								stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                   <path
@@ -272,6 +272,7 @@
 									<th>Gender</th>
 									<th>Birth Date</th>
 									<th>Languages</th>
+									<th>Profile Image</th>
 									<th>Action</th>
 									
 								</tr>
@@ -286,6 +287,7 @@
 										<td>${UserList.gender}</td>
 										<td>${UserList.birthDate}</td>
 										<td>${UserList.languages}</td>
+										<td><img src="data:image/jpg;base64,${UserList.base64Image}" width="100px" height="3px" style="border-radius:20%"></td>
 										<td><a href="#"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>&nbsp;&nbsp;
 										<i class="fa-solid fa-trash fa-lg delete" id="${UserList.userId}"></i></td>
 									</tr>
@@ -306,29 +308,26 @@
 		</div>
 <script>
 
-$(document).ready(function(){
-		$(document).on("click",".delete",function(){
-			var row=this;
-			var userId= +this.id;
+	$(document).ready(function() {
+		$(document).on("click", ".delete", function() {
+			var row = this;
+			var userId = +this.id;
 			alert(userId);
 			$.ajax({
-				url:"deleteUser",
-				type:"post",
-				data:({
-					userId:userId,
+				url : "DeleteUser",
+				type : "post",
+				data : ({
+					userId : userId,
 				}),
-				success:function(response){
-					$(row).closest('tr').fadeOut(200,function(){ 
-					    $(this).remove(); 
-					 }); 
+				success : function(response) {
+					$(row).closest('tr').fadeOut(200, function() {
+						$(this).remove();
+					});
 				}
-			});	
+			});
 		})
-		
+
 	});
-
-	
-
 </script>		
 </body>
 </html>

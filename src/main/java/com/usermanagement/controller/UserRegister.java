@@ -1,6 +1,8 @@
 package com.usermanagement.controller;
 
 import java.io.IOException;
+import java.util.logging.Logger;
+
 import java.io.InputStream;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -22,6 +24,9 @@ import javax.servlet.http.Part;
 import com.usermanagement.model.Address;
 import com.usermanagement.model.User;
 import com.usermanagement.services.UserServiceImpl;
+import com.usermanagement.services.AddressService;
+import com.usermanagement.services.AddressServiceImpl;
+import com.usermanagement.services.UserService;
 
 /**
  * Servlet implementation class UserRegister
@@ -29,86 +34,91 @@ import com.usermanagement.services.UserServiceImpl;
 @WebServlet("/UserRegister")
 @MultipartConfig
 public class UserRegister extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public UserRegister() {
-        super();
-    }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private static final long serialVersionUID = 1L;
+	private static Logger logger = Logger.getLogger(UserRegister.class.getName());
+
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public UserRegister() {
+		super();
+	}
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		User user=new User();
-		UserServiceImpl service=new UserServiceImpl();
-		
-		user.setFirstName(request.getParameter("firstname"));
-		user.setLastName(request.getParameter("lastname"));
-		user.setEmail(request.getParameter("email"));
-		user.setContactNo(request.getParameter("contact"));
-		user.setGender(request.getParameter("gender"));
-		user.setBirthDate(request.getParameter("birthDate"));	
-		
-		Part img_file=request.getPart("img");
-		InputStream image=img_file.getInputStream();
-		user.setImage(image);
-		
-		String languages="";
-		String[] lang=request.getParameterValues("language");
-		for(int i=0;i<lang.length;i++) {
-			languages+=lang[i]+" ";
-		}
-		user.setLanguages(languages);
-		
-		String password=request.getParameter("password");	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		User user = new User();
 		try {
-			String input=password;
-			byte[] encryptionBytes=com.usermanagement.utility.Encryption_Decryption.encrypt(input);
-			String pass=new String(encryptionBytes);
-			user.setPassword(pass);
-			
-		} catch (InvalidKeyException | IllegalBlockSizeException | BadPaddingException | NoSuchAlgorithmException | NoSuchPaddingException | InvalidAlgorithmParameterException e) {
-			e.printStackTrace();
-		}
-		int userId = 0;
-		try {
-			userId = service.addUser(user,image);
-		} catch (ClassNotFoundException | SQLException | IOException e) {
-			e.printStackTrace();
-		}
-		
-		String[] addressLine=request.getParameterValues("Address[]");
-		String[] city=request.getParameterValues("City[]");
-		String[] state=request.getParameterValues("State[]");
-		String[] pin=request.getParameterValues("Pin[]");
-		
-		int loopCounter=0;
-		while(loopCounter < addressLine.length) {
-			Address addr_obj=new Address();
-			addr_obj.setAddressLine(addressLine[loopCounter]);
-			addr_obj.setCity(city[loopCounter]);
-			addr_obj.setState(state[loopCounter]);
-			addr_obj.setPin(pin[loopCounter]);
-			
-			try {
-				int result=service.addAddress(userId,addr_obj);
-				loopCounter++;
-			} catch (ClassNotFoundException | SQLException e) {
-				e.printStackTrace();
-			}
-		}
-	
-		RequestDispatcher req=request.getRequestDispatcher("UserLogin.jsp");
-		req.forward(request, response);
-		
+			AddressService addressService = new AddressServiceImpl();
+			UserService userService = new UserServiceImpl();
 
-		
+			//set all basic details of user
+			user.setFirstName(request.getParameter("firstname"));
+			user.setLastName(request.getParameter("lastname"));
+			user.setEmail(request.getParameter("email"));
+			user.setContactNo(request.getParameter("contact"));
+			user.setGender(request.getParameter("gender"));
+			user.setBirthDate(request.getParameter("birthDate"));
+
+			
+			Part img_file = request.getPart("img");
+			InputStream image = img_file.getInputStream();
+			user.setImage(image);
+			
+			String languages = "";
+			String[] lang = request.getParameterValues("language");
+			for (int i = 0; i < lang.length; i++) {
+				languages += lang[i] + " ";
+			}
+			user.setLanguages(languages);
+
+			//set password in encrypted format
+			String password = request.getParameter("password");
+			String input = password;
+			byte[] encryptionBytes = com.usermanagement.utility.Encryption_Decryption.encrypt(input);
+			String pass = new String(encryptionBytes);
+			user.setPassword(pass);
+
+			//call add user method to add user into database
+			int userId=userService.addUser(user, image);
+
+			String[] addressLine = request.getParameterValues("Address[]");
+			String[] city = request.getParameterValues("City[]");
+			String[] state = request.getParameterValues("State[]");
+			String[] pin = request.getParameterValues("Pin[]");
+
+			int loopCounter = 0;
+			while (loopCounter < addressLine.length) {
+				Address addr_obj = new Address();
+				
+				addr_obj.setAddressLine(addressLine[loopCounter]);
+				addr_obj.setCity(city[loopCounter]);
+				addr_obj.setState(state[loopCounter]);
+				addr_obj.setPin(pin[loopCounter]);
+
+				addressService.addAddress(userId,addr_obj);
+				loopCounter++;
+			}
+
+			RequestDispatcher req = request.getRequestDispatcher("UserLogin.jsp");
+			req.forward(request, response);
+
+		} catch (InvalidKeyException | IllegalBlockSizeException | BadPaddingException | NoSuchAlgorithmException
+				| NoSuchPaddingException | InvalidAlgorithmParameterException | ClassNotFoundException
+				| SQLException e) {
+			logger.info(e.toString());
+
+		}
+
 	}
 
 }

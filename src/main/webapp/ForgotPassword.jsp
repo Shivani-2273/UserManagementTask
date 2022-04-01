@@ -6,16 +6,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Forgot password</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="assets/css/tailwind.output.css" />
     <script
       src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
-      defer
-    ></script>
+      defer></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="assets/js/init-alpine.js"></script>
+   
   </head>
   <body>
     <div class="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900">
@@ -44,29 +44,29 @@
               >
                 Forgot password
               </h1>
-              <form action="passwordURL" method="POST">
-              <label class="block text-sm">
+              <form action="passwordURL" method="POST" id="resetPassword">
+              <label class="block mt-2 mt-4 text-md font-semibold">
                 <span class="text-gray-700 dark:text-gray-400">Email</span>
                 <input
-                  class="block w-full mt-1 mb-4 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                  placeholder="Jane Doe" type="email" name="email"
-                />
+                  class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                  placeholder="Jane Doe" type="text" name="email" id="email"/>
+                  <span id="email_error"></span>
               </label>
               
-              <label class="block text-sm">
+              <label class="block mt-2 mt-4 text-md font-semibold">
                 <span class="text-gray-700 dark:text-gray-400">New Password</span>
                 <input
-                  class="block w-full mt-1  mb-4 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                  placeholder="***************" type="password" name="password"
-                />
+                  class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                  placeholder="***************" type="password" name="password" id="password"/>
+                  <span id="password_error"></span>
               </label>
               
-              <label class="block text-sm">
+              <label class="block mt-2 mt-4 text-md font-semibold">
                 <span class="text-gray-700 dark:text-gray-400">Confirm Password</span>
                 <input
-                  class="block w-full mt-1 mb-4 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                  placeholder="***************" type="password"
-                />
+                  class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                  placeholder="***************" type="password" id="Cpassword"/>
+                  <span id="Cpassword_error"></span>
               </label>
 			
               <!-- You should use a button here, as the anchor is only used for the example  -->
@@ -79,6 +79,7 @@
         </div>
       </div>
     </div>
+      <script src="custom/validation.js"></script>
   </body>
 </html>
     
