@@ -7,6 +7,11 @@
 
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
 <head>  
+<script type = "text/javascript" >
+   function preventBack(){window.history.forward();}
+    setTimeout("preventBack()", 0);
+    window.onunload=function(){null};
+</script>
 <style>
 .center {
   display: block;
@@ -19,6 +24,9 @@
 </style>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta Http-Equiv="Cache-Control" Content="no-cache">
+<meta Http-Equiv="Pragma" Content="no-cache">
+<meta Http-Equiv="Expires" Content="0"> 
 <title>User Dashboard</title>
 
 
@@ -87,7 +95,7 @@
 				<ul>
 				<li class="relative px-6 py-3"><a
 										class="inline-flex items-center text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-										href="UserLogin.jsp"> <svg class="w-5 h-5 mr-3"
+										href="Logout"> <svg class="w-5 h-5 mr-3"
 												aria-hidden="true" fill="none" stroke-linecap="round"
 												stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
 												stroke="currentColor">
@@ -149,7 +157,7 @@
 					
 					<li class="relative px-6 py-3"><a
 						class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-						href=""> <svg class="w-5 h-5 mr-3"
+						href="Logout"> <svg class="w-5 h-5 mr-3"
 												aria-hidden="true" fill="none" stroke-linecap="round"
 												stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
 												stroke="currentColor">

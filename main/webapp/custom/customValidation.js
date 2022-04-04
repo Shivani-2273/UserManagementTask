@@ -3,7 +3,6 @@
  */
  
  $(document).ready(function() {
-
 	$("#img_error").hide();
 	$("#fname_error").hide();
 	$("#lname_error").hide();
@@ -19,6 +18,7 @@
 	$("#state_error").hide();
 	$("#pin_error").hide();
 	
+	
 	var img_error = false;
 	var fname_error = false;
 	var lname_error = false;
@@ -33,6 +33,8 @@
 	var city_error = false;
 	var state_error = false;
 	var pin_error = false;
+	var sDateError=false;
+	var	eDateError=false;
 
 	//profile image validation
 	$("#image").change(function() {
@@ -421,12 +423,29 @@
 
 		}
 	}
-
-
-
-
-
-
+	
+	function check_startDate() {
+		var sDate = $("#startDate").val();
+		if (sDate.length == 0) {
+			$("#sDateError").html("Please select start date!!").css("color", "red");;
+			$("#sDateError").show();
+			sDateError = true;
+		} else {
+			$("#sDateError").hide();
+		}
+	}
+	
+	
+	function check_endDate() {
+		var eDate = $("#endDate").val();
+		if (eDate.length == 0) {
+			$("#eDateError").html("Please select end date!!").css("color", "red");;
+			$("#eDateError").show();
+			eDateError = true;
+		} else {
+			$("#eDateError").hide();
+		}
+	}
 
 	$("#register").submit(function() {
 		img_error = false;
@@ -466,7 +485,6 @@
 			alert("Registration Successful");
 			return true;
 		} else {
-			alert("s");
 			return false;
 			
 		}
@@ -506,6 +524,20 @@
 			return false;
 		}
 	});
+	
+	$("#csvDownload").submit(function(){
+		alert("hello");
+		sDateError=false;
+		eDateError=false;
+		check_startDate();
+		check_endDate();
+		if(sDateError === false && eDateError === false){
+			return true;
+		}else{
+			return false;
+		}
+	});
+	
 
 
 });

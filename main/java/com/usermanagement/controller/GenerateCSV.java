@@ -53,28 +53,19 @@ public class GenerateCSV extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		User user = new User();
 		String startDate = request.getParameter("startDate");
 		String endDate = request.getParameter("endDate");
 
-		UserService service = new UserServiceImpl();
-		
-			List<User> list  ;
-			//service.getCSVFile(user)
-			File file = new File("S:\\UserLoginInfo_CSV\\Login.csv");
+		UserService userService = new UserServiceImpl();
+
 			try {
-				FileWriter outputfile = new FileWriter(file);
-				CSVWriter writer = new CSVWriter(outputfile);
-
-				String[] Header= {"First Name","Last Name","Date/Time"};
-				writer.writeNext(Header);
-
-			} catch (IOException e) {
+				userService.getCSVFile(startDate,endDate);
+				RequestDispatcher req = request.getRequestDispatcher("LoginInfo.jsp");
+				req.forward(request, response);
+			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 			}
-
-			RequestDispatcher req = request.getRequestDispatcher("LoginInfo.jsp");
-			req.forward(request, response);
+			;
 		
 	}
 

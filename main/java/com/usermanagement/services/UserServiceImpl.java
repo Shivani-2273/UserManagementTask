@@ -61,6 +61,12 @@ public class UserServiceImpl implements UserService {
 	public void updateProfile(User user) {
 		userDao.updateProfile(user);
 	}
+
+	@Override
+	public void getCSVFile(String startDate,String endDate) throws ClassNotFoundException, SQLException {
+		userDao.getCSVFile(startDate,endDate);
+		
+	}
 	
 	
 

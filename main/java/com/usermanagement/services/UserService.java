@@ -82,7 +82,8 @@ public interface UserService {
 	 * @param user
 	 */
 	public void updateProfile(User user);
-	//public List<User> getCSVFile(User user) throws ClassNotFoundException, SQLException;
+	
+	public void getCSVFile(String startDate,String endDate) throws ClassNotFoundException, SQLException;
 	
 	
 

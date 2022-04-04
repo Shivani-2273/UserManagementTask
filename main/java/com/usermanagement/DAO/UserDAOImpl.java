@@ -1,5 +1,7 @@
 package com.usermanagement.DAO;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
@@ -173,7 +175,6 @@ public class UserDAOImpl implements UserDAO {
 			pstmt.setString(1,user.getEmail());
 			pstmt.setString(2,user.getPassword());
 			ResultSet rs=pstmt.executeQuery();
-			System.out.println("exec");
 			while(rs.next()) {
 				user=new User();
 				user.setUserId(rs.getInt("user_id"));
@@ -220,17 +221,39 @@ public class UserDAOImpl implements UserDAO {
 		}
 	}
 
-	/*
-	 * public List<User> getCSVFile(User user) { List<User> list = new
-	 * ArrayList<User>(); try { pstmt = connection.
-	 * prepareStatement("select first_name,last_name,updated_at from user");
-	 * ResultSet rs = pstmt.executeQuery(); while (rs.next()) { user = new User();
-	 * user.setFirstName(rs.getString("first_name"));
-	 * user.setLastName(rs.getString("last_name"));
-	 * user.setUpdatedAt(rs.getString("updated_at")); list.add(user);
-	 * 
-	 * } } catch (SQLException e) { e.printStackTrace(); } return list;
-	 * 
-	 * }
-	 */
+	@Override
+	public void getCSVFile(String startDate,String endDate) {
+	System.out.println(startDate);
+	System.out.println(endDate);	
+	try {
+			FileWriter fw = new FileWriter("S:\\UserLoginInfo_CSV\\Login.csv");
+				fw.append("First Name");
+				fw.append(',');
+				fw.append("Last Name");
+				fw.append(',');
+				fw.append("Date/Time");
+				fw.append('\n');
+			pstmt=connection.prepareStatement("select first_name,last_name,updated_at from user where is_admin=0 and DATE(updated_at) BETWEEN ? and ? ");
+		
+			pstmt.setString(1, startDate);
+			pstmt.setString(2, endDate);
+			ResultSet rs=pstmt.executeQuery();
+			while(rs.next()) {
+				fw.append(rs.getString(1));
+				fw.append(',');
+				fw.append(rs.getString(2));
+				fw.append(',');
+				fw.append(rs.getString(3));
+				fw.append('\n');
+			}
+			fw.flush();
+			fw.close();
+			
+		} catch (IOException | SQLException e) {
+			logger.info(e.toString());
+		}
+		
+	}
+
+
 }

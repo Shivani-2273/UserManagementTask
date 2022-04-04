@@ -45,6 +45,8 @@ public class AddressInfo extends HttpServlet  {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		
 		int user_id = Integer.parseInt(request.getParameter("user_id"));
 		try {
 			AddressService addressService = new AddressServiceImpl();

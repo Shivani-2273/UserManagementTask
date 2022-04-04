@@ -207,10 +207,10 @@ User user=(User)session.getAttribute("CurrentUser");
 				<div class="panel-body">
 					<div class="panel-body pl-2 pr-2 pb-2">
 						
-						<div class="radioDefault">
-						<input type="radio" id="default" class="mt-3 bg-black" name="is_default" ><span
+						
+						<input type="radio" id="is_default" class="mt-3 bg-black" name="is_default[]" ><span
 					class="text-gray-700 mr-4 dark:text-gray-400"> Select Default</span>
-						</div>
+						
 							
 							<label class="block mt-2 text-md font-semibold">
 							<span class="text-gray-700 dark:text-gray-400">Street
@@ -284,9 +284,6 @@ User user=(User)session.getAttribute("CurrentUser");
 		</div>
 		<input type="submit" value="Register"
 			class="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-
-		<span id="sucessMSG"></span>
-		<span id="failureMSG"></span>
 		<hr class="my-8" />
 
 		<p class="mt-4">
@@ -344,5 +341,26 @@ User user=(User)session.getAttribute("CurrentUser");
         defaultRender: 1,
     });
 </script>
+<script>
+$('#is_default').click(function(){
+	 var val = $("input[name='is_default[]']:checked").val();
+	 var one=1;
+	 if(val == 'on'){
+		 alert("hi");
+		 $("input[name='is_default[]'][value=" + one + "]").prop('checked', true);
+		 alert("chnage="+val);
+	 }else{
+		 var zero=0;
+		 $("input[name='is_default[]'][value=" + zero + "]").prop('checked', false);
+		 alert(val);
+		
+		 
+	 }
+});
+
+</script>
+
+
+
 </body>
 </html>

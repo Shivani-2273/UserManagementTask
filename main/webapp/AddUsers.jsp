@@ -7,14 +7,12 @@
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
 <head>  
 <style>
-.center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 120px;
-   border-radius:20%;
-   height:150px;
+
+.h-scrren{
+height:200vh;
 }
+.w-4\/5 {
+    width: 100%;
 </style>
 
 <meta charset="UTF-8" />
@@ -92,7 +90,7 @@
 				<ul>
 					<li class="relative px-6 py-3"><a
 						class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-						href="LoginInfo.jsp"> <svg class="w-5 h-5" aria-hidden="true"
+						href="Logout"> <svg class="w-5 h-5" aria-hidden="true"
 								fill="none" stroke-linecap="round" stroke-linejoin="round"
 								stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                   <path
@@ -107,7 +105,7 @@
 				<ul>
 				<li class="relative px-6 py-3"><a
 										class="inline-flex items-center text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-										href="Logout"> <svg class="w-5 h-5 mr-3"
+										href="UserLogin.jsp"> <svg class="w-5 h-5 mr-3"
 												aria-hidden="true" fill="none" stroke-linecap="round"
 												stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
 												stroke="currentColor">
@@ -181,7 +179,7 @@
 			<ul>
 				<li class="relative px-6 py-3"><a
 						class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-						href="LoginInfo.jsp"> <svg class="w-5 h-5" aria-hidden="true"
+						href="Logout"> <svg class="w-5 h-5" aria-hidden="true"
 								fill="none" stroke-linecap="round" stroke-linejoin="round"
 								stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                   <path
@@ -194,7 +192,7 @@
 					
 					<li class="relative px-6 py-3"><a
 						class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-						href="Logout"> <svg class="w-5 h-5 mr-3"
+						href="UserLogin.jsp"> <svg class="w-5 h-5 mr-3"
 												aria-hidden="true" fill="none" stroke-linecap="round"
 												stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
 												stroke="currentColor">
@@ -237,40 +235,14 @@
 			
 			<main class="h-screen  w-4/5  mx-auto  ">
 			
-			<div class="w-2/3 mx-auto mt-16 text-center">
+		
 					
-						<h1 class="font-medium my-2 text-xl">Your Profile</h1>
-					<table class="table">						
-							<c:forEach items="${adminProfileData}" var="adminProfileData">
-								<tr  class="border-2">
-									<td class="font-bold border-2">Name</td><td class="border-2">${adminProfileData.firstName}     ${adminProfileData.lastName}</td>
-								<tr  class="border-2">
-									<td class="font-bold border-2">Email</td><td class="border-2">${adminProfileData.email}</td>
-								<tr  class="border-2">
-									<td class="font-bold border-2">Phone Number</td><td class="border-2">${adminProfileData.contactNo}</td>
-								<tr  class="border-2">
-									<td class="font-bold border-2">Gender</td><td class="border-2">${adminProfileData.gender}</td>
-								<tr  class="border-2">
-									<td class="font-bold border-2">Birth Date</td><td class="border-2">${adminProfileData.birthDate}</td>
-									
-								<tr  class="border-2">
-									<td class="font-bold border-2">Known Languages</td><td class="border-2">${adminProfileData.languages}</td>
-									
-								<tr  class="border-2">
-									<td class="font-bold border-2">Profile Image</td><td class="border-2"><img src="data:image/jpg;base64,${adminProfileData.base64Image}"  class="center"> </td>
-					
-			
-							</c:forEach>		
-					</table>
-					</div>
-			
-			
+			<jsp:include page="Register.jsp" />
 			
 			</main>
-						<jsp:include page="Footer.jsp" />
-			
-			</div>
-			</div>
+		<jsp:include page="Footer.jsp" />
+		</div>
+		</div>
 		
 </body>
 </html>

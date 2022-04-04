@@ -108,6 +108,21 @@ public class UserRegister extends HttpServlet {
 			int userId=userService.addUser(user);
 			
 			//int is_default=Integer.parseInt(request.getParameter("is_default"));
+			/*
+			 * int[] is_default_values={}; String[]
+			 * is_default=request.getParameterValues("is_default[]"); for(int
+			 * i=0;i<is_default.length;i++) {
+			 * is_default_values[i]=Integer.parseInt(is_default[i]); }
+			 */
+			
+			//String[] is_default=request.getParameterValues("is_default[]");
+			/*
+			 * String[] is_default_values=request.getParameterValues("is_default[]");
+			 * for(int i=0;i<is_default_values.length;i++) {
+			 * System.out.print(is_default_values[i]); } int[] is_default={}; for(int
+			 * i=0;i<is_default_values.length;i++) { if(is_default_values[i].equals("on")) {
+			 * is_default[i]=1; }else { is_default[i]=0; } }
+			 */
 			
 			String[] addressLine = request.getParameterValues("Address[]");
 			String[] city = request.getParameterValues("City[]");
@@ -117,12 +132,13 @@ public class UserRegister extends HttpServlet {
 			int loopCounter = 0;
 			while (loopCounter < addressLine.length) {
 				Address addr_obj = new Address();
-				//addr_obj.setIsDefault(is_default);
+				
 				
 				addr_obj.setAddressLine(addressLine[loopCounter]);
 				addr_obj.setCity(city[loopCounter]);
 				addr_obj.setState(state[loopCounter]);
 				addr_obj.setPin(pin[loopCounter]);
+				//addr_obj.setIsDefault(is_default[loopCounter]);
 
 				addressService.addAddress(userId,addr_obj);
 				loopCounter++;

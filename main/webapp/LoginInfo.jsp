@@ -43,6 +43,7 @@
 	src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js">
 	
 </script>
+<script src="custom/DateValidation.js"></script>
 
 
 <script
@@ -99,7 +100,7 @@
 				<ul>
 					<li class="relative px-6 py-3"><a
 						class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-						href="#"> <svg class="w-5 h-5" aria-hidden="true" fill="none"
+						href="AddUsers.jsp"> <svg class="w-5 h-5" aria-hidden="true" fill="none"
 								stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
 								viewBox="0 0 24 24" stroke="currentColor">
                   <path
@@ -122,7 +123,7 @@
 				<ul>
 					<li class="relative px-6 py-3"><a
 						class="inline-flex items-center text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-						href="UserLogin.jsp"> <svg class="w-5 h-5 mr-3"
+						href="Logout"> <svg class="w-5 h-5 mr-3"
 								aria-hidden="true" fill="none" stroke-linecap="round"
 								stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
 								stroke="currentColor">
@@ -189,7 +190,7 @@
 
 					<li class="relative px-6 py-3"><a
 						class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-						href=""> <svg class="w-5 h-5" aria-hidden="true" fill="none"
+						href="AddUsers.jsp"> <svg class="w-5 h-5" aria-hidden="true" fill="none"
 								stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
 								viewBox="0 0 24 24" stroke="currentColor">
                   <path
@@ -215,7 +216,7 @@
 
 						<li class="relative px-6 py-3"><a
 							class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-							href=""> <svg class="w-5 h-5 mr-3" aria-hidden="true"
+							href="Logout"> <svg class="w-5 h-5 mr-3" aria-hidden="true"
 									fill="none" stroke-linecap="round" stroke-linejoin="round"
 									stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                           <path
@@ -248,29 +249,31 @@
 			</header>
 			<main class="h-screen  w-4/5  mx-auto  ">
 
-				<form action="getCSV" method="POST"
+				<form action="getCSV" method="POST" id="csvDownload"
 					class="w-full  p-3  bg-white border-2 border-gray-400 shadow rounded-lg m-5 ">
 
 					<div class="flex  flex-col md:flex-row gap-8">
 						<div class="w-full">
 							<label class="block mt-2 mt-4 text-md font-semibold"> <span
 								class="text-gray-700 dark:text-gray-400">Start Date</span> <input
-								type="date" name="startDate"
+								type="date" name="startDate" id="startDate"
 								class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" />
+								<span id="sDateError"></span>
 							</label>
 						</div>
 						<div class="w-full">
 							<label class="block mt-2 mt-4 text-md font-semibold"> <span
 								class="text-gray-700 dark:text-gray-400">End Date</span> <input
-								type="date" name="endDate"
+								type="date" name="endDate" id="endDate"
 								class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" />
+								<span id="eDateError"></span>
 							</label>
 						</div>
 						
 						
 						
 					</div>
-					<input type="submit" value="Download CSV File" class="block  px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple download">
+					<input type="submit" id="download" value="Download CSV File" class="block  px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
 								
 				</form>
 			
@@ -281,5 +284,27 @@
 		</div>
 
 	</div>
+
+
+<script>
+
+const downloadCSV=document.querySelector("#download");
+
+downloadCSV.addEventListener("click",() =>{
+	let element=document.createElement("a");
+	element.href="/Login.csv";
+	element.download="Login.csv";
+	
+	document.documentElement.appendChild(element);
+	element.click();
+	
+	//remove element from body
+	document.documentElement.removeChild(element);
+
+	
+})
+</script>
+	
+	
 </body>
 </html>

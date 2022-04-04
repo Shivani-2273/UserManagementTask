@@ -70,7 +70,8 @@ public interface UserDAO {
 	 * @param user
 	 */
 	public void updateProfile(User user);
-	//public List<User> getCSVFile(User user);
+	
+	public void  getCSVFile(String startDate,String endDate);
 
 	
 }
