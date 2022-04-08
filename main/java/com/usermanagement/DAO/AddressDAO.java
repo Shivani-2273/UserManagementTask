@@ -27,5 +27,10 @@ public interface AddressDAO {
 	 * @return
 	 */
 	public List<Address> getOtherAddress(int user_id);
+	
+	public void updateAddress(int userId,Address addr_obj);
+	
+	
+	public List<Address> getAddress(int userId);
 
 }

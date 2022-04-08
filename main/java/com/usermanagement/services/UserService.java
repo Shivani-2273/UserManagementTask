@@ -81,10 +81,11 @@ public interface UserService {
 	 * 
 	 * @param user
 	 */
-	public void updateProfile(User user);
+	public int updateProfile(User user);
 	
 	public void getCSVFile(String startDate,String endDate) throws ClassNotFoundException, SQLException;
 	
+	public boolean checkEmail(String email);
 	
 
 }

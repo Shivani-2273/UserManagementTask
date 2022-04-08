@@ -58,14 +58,21 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void updateProfile(User user) {
-		userDao.updateProfile(user);
+	public int updateProfile(User user) {
+		int userId=userDao.updateProfile(user);
+		return userId;
 	}
 
 	@Override
 	public void getCSVFile(String startDate,String endDate) throws ClassNotFoundException, SQLException {
 		userDao.getCSVFile(startDate,endDate);
 		
+	}
+
+	@Override
+	public boolean checkEmail(String email) {
+		boolean flag=userDao.checkEmail(email);
+		return flag;
 	}
 	
 	

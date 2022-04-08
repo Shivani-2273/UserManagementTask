@@ -376,7 +376,7 @@
 
 	function check_state(selector) {
 		var state = $(selector + " #state").val();
-		if (state == "0") {
+		if (state == "select") {
 			$(selector + " #state_error").html("Please select state!!").css("color", "red");
 			$(selector + " #state_error").show();
 			state_error = true;

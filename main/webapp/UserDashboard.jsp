@@ -3,15 +3,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@page import="com.usermanagement.model.User"%>
 <%@page import="com.usermanagement.model.Address"%>
+
 <!DOCTYPE html>
 
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
 <head>  
-<script type = "text/javascript" >
-   function preventBack(){window.history.forward();}
-    setTimeout("preventBack()", 0);
-    window.onunload=function(){null};
-</script>
+
 <style>
 .center {
   display: block;
@@ -81,7 +78,7 @@
 				<ul>
 					<li class="relative px-6 py-3"><a
 						class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-						href="Register.jsp"> <svg class="w-5 h-5"
+						href="Register.jsp?user=userEdit"> <svg class="w-5 h-5"
 								aria-hidden="true" fill="none" stroke-linecap="round"
 								stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
 								stroke="currentColor">
@@ -144,7 +141,7 @@
 			<ul>
 					<li class="relative px-6 py-3"><a
 						class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-						href="#"> <svg class="w-5 h-5" aria-hidden="true"
+						href="Register.jsp?user=userEdit"> <svg class="w-5 h-5" aria-hidden="true"
 								fill="none" stroke-linecap="round" stroke-linejoin="round"
 								stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                   <path
@@ -190,9 +187,9 @@
 				</div>
 			</header>
 						<main class="h-screen  w-4/5  mx-auto  ">
-						<div class="w-2/3 mx-auto mt-16 text-center">
+						<div class="w-2/3 mx-auto mt-10 text-center">
 					
-						<h1 class="font-medium my-2 text-xl">Your Profile</h1>
+						<h1 class="font-large my-2 text-4xl">Your Profile</h1>
 					<table class="table">						
 							<c:forEach items="${profileData}" var="profileData">
 								<tr  class="border-2">

@@ -29,4 +29,15 @@ public class AddressServiceImpl implements AddressService {
 		return list;
 	}
 
+	@Override
+	public void updateAddress(int userId,Address addr_obj) {
+		addressDao.updateAddress(userId,addr_obj);
+	}
+
+	@Override
+	public List<Address> getAddress(int userId) {
+		List<Address> list=addressDao.getAddress(userId);
+		return list;
+	}
+
 }

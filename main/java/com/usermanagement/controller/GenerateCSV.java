@@ -52,21 +52,19 @@ public class GenerateCSV extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		try {
+			String startDate = request.getParameter("startDate");
+			String endDate = request.getParameter("endDate");
 
-		String startDate = request.getParameter("startDate");
-		String endDate = request.getParameter("endDate");
+			UserService userService = new UserServiceImpl();
 
-		UserService userService = new UserServiceImpl();
+			userService.getCSVFile(startDate, endDate);
+			RequestDispatcher req = request.getRequestDispatcher("LoginInfo.jsp");
+			req.forward(request, response);
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
 
-			try {
-				userService.getCSVFile(startDate,endDate);
-				RequestDispatcher req = request.getRequestDispatcher("LoginInfo.jsp");
-				req.forward(request, response);
-			} catch (ClassNotFoundException | SQLException e) {
-				e.printStackTrace();
-			}
-			;
-		
 	}
 
 }

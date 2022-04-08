@@ -69,9 +69,11 @@ public interface UserDAO {
 	 * This method will update user profile and store updated details in database
 	 * @param user
 	 */
-	public void updateProfile(User user);
+	public int updateProfile(User user);
 	
 	public void  getCSVFile(String startDate,String endDate);
+	
+	public boolean checkEmail(String email);
 
 	
 }

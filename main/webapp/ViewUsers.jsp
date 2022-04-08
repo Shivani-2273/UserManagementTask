@@ -2,6 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@page import="com.usermanagement.model.User"%>
+
 <!DOCTYPE html>
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
 <head>  
@@ -108,7 +109,7 @@
 				<ul>
 					<li class="relative px-6 py-3"><a
 						class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-						href="AddUsers.jsp"> <svg class="w-5 h-5" aria-hidden="true" fill="none"
+						href="Register.jsp?user=admin"> <svg class="w-5 h-5" aria-hidden="true" fill="none"
 								stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
 								viewBox="0 0 24 24" stroke="currentColor">
                   <path
@@ -186,7 +187,7 @@
 				<ul>
 				<li class="relative px-6 py-3"><a
 						class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-						href="ViewUsers"> <svg class="w-5 h-5" aria-hidden="true"
+						href="UserRegister"> <svg class="w-5 h-5" aria-hidden="true"
 								fill="none" stroke-linecap="round" stroke-linejoin="round"
 								stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                   <path
@@ -198,7 +199,7 @@
 					
 					<li class="relative px-6 py-3"><a
 						class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-						href="AddUsers.jsp"> <svg class="w-5 h-5" aria-hidden="true"
+						href="Register.jsp?user=admin"> <svg class="w-5 h-5" aria-hidden="true"
 								fill="none" stroke-linecap="round" stroke-linejoin="round"
 								stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                   <path
@@ -288,7 +289,7 @@
 										<td>${UserList.birthDate}</td>
 										<td>${UserList.languages}</td>
 										<td><img src="data:image/jpg;base64,${UserList.base64Image}" width="100px" height="3px" style="border-radius:20%"></td>
-										<td><a href="Register.jsp"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>&nbsp;&nbsp;
+										<td><a href="Register.jsp?user=adminEdit"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>&nbsp;&nbsp;
 										<i class="fa-solid fa-trash fa-lg delete" id="${UserList.userId}"></i></td>
 									</tr>
 									</c:forEach>

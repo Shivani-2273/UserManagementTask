@@ -81,7 +81,7 @@
 				<ul>
 					<li class="relative px-6 py-3"><a
 						class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-						href="AddUsers.jsp"> <svg class="w-5 h-5" aria-hidden="true" fill="none"
+						href="Register.jsp?user=admin"> <svg class="w-5 h-5" aria-hidden="true" fill="none"
 								stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
 								viewBox="0 0 24 24" stroke="currentColor">
                   <path
@@ -169,7 +169,7 @@
 					
 					<li class="relative px-6 py-3"><a
 						class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-						href="AddUsers.jsp"> <svg class="w-5 h-5" aria-hidden="true"
+						href="Register.jsp"> <svg class="w-5 h-5" aria-hidden="true"
 								fill="none" stroke-linecap="round" stroke-linejoin="round"
 								stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                   <path
@@ -237,9 +237,9 @@
 			
 			<main class="h-screen  w-4/5  mx-auto  ">
 			
-			<div class="w-2/3 mx-auto mt-16 text-center">
+			<div class="w-2/3 mx-auto mt-10 text-center">
 					
-						<h1 class="font-medium my-2 text-xl">Your Profile</h1>
+						<h1 class="font-large my-2 text-4xl">Your Profile</h1>
 					<table class="table">						
 							<c:forEach items="${adminProfileData}" var="adminProfileData">
 								<tr  class="border-2">
@@ -271,6 +271,7 @@
 			
 			</div>
 			</div>
-		
+
+
 </body>
 </html>

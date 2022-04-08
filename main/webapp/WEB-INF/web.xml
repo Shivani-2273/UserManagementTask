@@ -19,6 +19,7 @@
 		<url-pattern>/LoginURL</url-pattern>
 	</servlet-mapping>
 	
+	
 	<!-- <filter>
 		<filter-name>ValidationFilter</filter-name>
 		<filter-class>com.usermanagement.filter.ValidationFilter</filter-class>
@@ -41,7 +42,7 @@
 		<url-pattern>/RegisterURL</url-pattern>
 	</servlet-mapping>
 
-
+	
 	<servlet>
 		<description></description>
 		<display-name>ForgotPassword</display-name>

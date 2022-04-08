@@ -93,9 +93,10 @@ public class UserRegister extends HttpServlet {
 			String languages = "";
 			String[] lang = request.getParameterValues("language");
 			for (int i = 0; i < lang.length; i++) {
-				languages += lang[i] + " ";
+				languages += lang[i] + ",";
 			}
-			user.setLanguages(languages);
+			String check_languges=languages.substring(0,languages.length()-1);
+			user.setLanguages(check_languges);
 
 			//set password in encrypted format
 			String password = request.getParameter("password");
@@ -143,9 +144,15 @@ public class UserRegister extends HttpServlet {
 				addressService.addAddress(userId,addr_obj);
 				loopCounter++;
 			}
-
-			RequestDispatcher req = request.getRequestDispatcher("Register.jsp");
-			req.forward(request, response);
+			HttpSession session=request.getSession();
+			String userName=(String) session.getAttribute("userName");
+			
+			if(userName!=null) {
+				response.sendRedirect("AdminDashboard.jsp");
+			}else {
+				response.sendRedirect("UserLogin.jsp");
+			}
+		
 
 		} catch (InvalidKeyException | IllegalBlockSizeException | BadPaddingException | NoSuchAlgorithmException
 				| NoSuchPaddingException | InvalidAlgorithmParameterException | ClassNotFoundException

@@ -2,29 +2,28 @@ package com.usermanagement.model;
 
 public class Address {
 
-	private int userId, addressId, is_default;
-	private String addressLine, city, state, pin;
+	private int userId , is_default;
+	private String addressLine, city, state, pin,addressId;
 
-	public Address() {
-	}
-
-	public Address(int userId, int addressId, String addressLine, String city, String state, String pin,
-			int is_default) {
+	public Address() {}
+	
+	public Address(int userId, int is_default, String addressLine, String city, String state, String pin,
+			String addressId) {
 		super();
 		this.userId = userId;
-		this.addressId = addressId;
+		this.is_default = is_default;
 		this.addressLine = addressLine;
 		this.city = city;
 		this.state = state;
 		this.pin = pin;
-		this.is_default = is_default;
-	}
-
-	public void setAddressId(int addressId) {
 		this.addressId = addressId;
 	}
 
-	public int getAddressId() {
+	public void setAddressId(String addressId) {
+		this.addressId = addressId;
+	}
+
+	public String getAddressId() {
 		return addressId;
 	}
 
@@ -78,10 +77,11 @@ public class Address {
 
 	@Override
 	public String toString() {
-		return "Address [userId=" + userId + ", addressId=" + addressId + ", addressLine=" + addressLine + ", city="
-				+ city + ", state=" + state + ", pin=" + pin + ", is_default=" + is_default + "]";
+		return "Address [userId=" + userId + ", is_default=" + is_default + ", addressLine=" + addressLine + ", city="
+				+ city + ", state=" + state + ", pin=" + pin + ", addressId=" + addressId + "]";
 	}
 
+	
 	
 
 }

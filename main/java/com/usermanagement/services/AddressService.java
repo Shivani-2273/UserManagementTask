@@ -34,5 +34,8 @@ public interface AddressService {
 	 */
 	public List<Address> getOtherAddress(int user_id) throws ClassNotFoundException, SQLException;
 	
+	public void updateAddress(int userId,Address addr_obj);
+	
+	public List<Address> getAddress(int userId);
 	
 }
