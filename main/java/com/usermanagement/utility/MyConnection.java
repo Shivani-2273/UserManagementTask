@@ -26,7 +26,7 @@ public class MyConnection {
 		}
 		
 		public Connection getConnection() throws SQLException,ClassNotFoundException {
-			connection=DriverManager.getConnection("jdbc:mysql://localhost:3306/usermanagement","root","qwertyuiop");
+			connection=DriverManager.getConnection("jdbc:mysql://localhost:3306/usermanagement","root","");
 			return connection;
 		}
 		

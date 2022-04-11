@@ -83,6 +83,9 @@ public interface UserService {
 	 */
 	public int updateProfile(User user);
 	
+	
+	public List<User> displayUserDetails(int userId);
+	
 	public void getCSVFile(String startDate,String endDate) throws ClassNotFoundException, SQLException;
 	
 	public boolean checkEmail(String email);

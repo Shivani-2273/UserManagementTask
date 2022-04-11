@@ -67,7 +67,7 @@ public class UserLogin extends HttpServlet {
 			// set email id and password for login
 			user.setEmail(request.getParameter("email"));
 			String password = request.getParameter("password");
-
+		
 			// password as encrypted format
 			String input = password;
 			byte[] encryptionBytes = com.usermanagement.utility.Encryption_Decryption.encrypt(input);
@@ -115,8 +115,8 @@ public class UserLogin extends HttpServlet {
 				req.forward(request, response);
 			}
 		} catch (InvalidKeyException | IllegalBlockSizeException | BadPaddingException | NoSuchAlgorithmException
-				| NoSuchPaddingException | InvalidAlgorithmParameterException | ClassNotFoundException
-				| SQLException e) {
+				| NoSuchPaddingException | ClassNotFoundException
+				| SQLException | InvalidAlgorithmParameterException e) {
 			logger.info(e.toString());
 
 		}

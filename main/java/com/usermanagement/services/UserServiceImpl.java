@@ -74,6 +74,12 @@ public class UserServiceImpl implements UserService {
 		boolean flag=userDao.checkEmail(email);
 		return flag;
 	}
+
+	@Override
+	public List<User> displayUserDetails(int userId) {
+		List<User> list=userDao.displayUserDetails(userId);
+		return list;
+	}
 	
 	
 

@@ -66,6 +66,7 @@ public class UserDAOImpl implements UserDAO {
 				pstmt.setString(1, obj.getEmail());
 				pstmt.executeUpdate();
 				return true;
+
 			}
 
 		} catch (SQLException e) {
@@ -82,7 +83,7 @@ public class UserDAOImpl implements UserDAO {
 		int id = 0;
 		try {
 			pstmt = connection.prepareStatement(
-					"insert into user(first_name,last_name,email,password,contact_no,date_of_birth,language,gender,profile_image,is_admin) values(?,?,?,?,?,?,?,?,?,0)");
+					"insert into user(first_name,last_name,email,password,contact_no,date_of_birth,language,gender,profile_image,is_admin) values(?,?,?,?,?,?,?,?,?,0	)");
 			pstmt.setString(1, obj.getFirstName());
 			pstmt.setString(2, obj.getLastName());
 			pstmt.setString(3, obj.getEmail());
@@ -272,6 +273,36 @@ public class UserDAOImpl implements UserDAO {
 		return false;
 		
 		
+	}
+
+
+	@Override
+	public List<User> displayUserDetails(int userId) {
+		List<User> list = new ArrayList<User>();
+		try {
+			pstmt=connection.prepareStatement("select * from user where user_id=?");
+			pstmt.setInt(1, userId);
+			ResultSet rs=pstmt.executeQuery();
+			while(rs.next()) {
+				User user=new User();
+				user.setFirstName(rs.getString("first_name"));
+				user.setLastName(rs.getString("last_name"));
+				user.setEmail(rs.getString("email"));
+				user.setContactNo(rs.getString("contact_no"));
+				user.setGender(rs.getString("gender"));
+				user.setBirthDate(rs.getString("date_of_birth"));
+				user.setLanguages(rs.getString("language"));
+				
+				Blob blob = rs.getBlob("profile_image");
+				byte[] photo = blob.getBytes(1, (int) blob.length());
+				String base64Image = Base64.getEncoder().encodeToString(photo);
+				user.setBase64Image(base64Image);
+				list.add(user);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 
 

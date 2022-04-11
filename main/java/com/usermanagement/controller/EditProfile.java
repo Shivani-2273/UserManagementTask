@@ -1,7 +1,10 @@
 package com.usermanagement.controller;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -14,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+import com.usermanagement.DAO.AddressDAOImpl;
 import com.usermanagement.model.Address;
 import com.usermanagement.model.User;
 import com.usermanagement.services.AddressService;
@@ -81,42 +85,49 @@ public class EditProfile extends HttpServlet {
 			user.setGender(request.getParameter("gender"));
 
 			Part img_file = request.getPart("img");
+	
 			InputStream image = img_file.getInputStream();
 			user.setImage(image);
-
 			int userId = userService.updateProfile(user);
 
 			//for update address on edit page
-			/*
-			 * int addressId[] = new int[list.size()]; for (int i = 0; i < list.size(); i++)
-			 * { addressId[i] = list.get(i).getAddressId(); }
-			 */
 			
+			String addrId[] = new String[list.size()];
+			for (int i = 0; i < list.size(); i++) {
+				addrId[i] =list.get(i).getAddressId();
+			
+			}
+		
 			String[] addressId=request.getParameterValues("addressId[]");
+			List<String> addressIdList=Arrays.asList(addressId);
+			String remove="";
+			for(int i=0;i<addrId.length;i++) {
+				if(!addressIdList.contains(addrId[i])) {
+					remove +=addrId[i]+" ";
+				}
+			}
+	
+			
 			String[] addressLine = request.getParameterValues("Address[]");
 			String[] city = request.getParameterValues("City[]");
 			String[] state = request.getParameterValues("State[]");
 			String[] pin = request.getParameterValues("Pin[]");
 
-		
-			
-			
 			int loopCounter = 0;
 			while (loopCounter < addressLine.length) {
 
 				//for update changes
-				//addr_obj.setAddressId(addressId[loopCounter]);
 				addr_obj.setAddressId(addressId[loopCounter]);
 				addr_obj.setAddressLine(addressLine[loopCounter]);
 				addr_obj.setCity(city[loopCounter]);
 				addr_obj.setState(state[loopCounter]);
 				addr_obj.setPin(pin[loopCounter]);
-
+				addr_obj.setRemoveAddressId(remove); 
+				
 				addressService.updateAddress(userId, addr_obj);
-
 				loopCounter++;
 			}
-
+			
 			String userName = (String) session.getAttribute("userName");
 			if (userName.equals("adminEdit")) {
 				response.sendRedirect("AdminDashboard.jsp");

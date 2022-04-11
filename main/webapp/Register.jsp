@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@page import="com.usermanagement.model.User"%>
 <%@page import="com.usermanagement.model.Address"%>
 
@@ -210,12 +211,12 @@ session.setAttribute("userName", userName);
 			<label class="block mt-2 mt-4 mb-2 text-md font-semibold"> <span
 				class="text-gray-700 dark:text-gray-400">Known Language</span><br />
 				<input type="checkbox" class="mt-2 mr-3" name="language"
-				value="Gujarati"> <label
+				value="Gujarati" ${fn:contains(user.languages,'Gujarati') ? 'checked':'' }> <label
 				class="text-gray-700 dark:text-gray-400">Gujarati</label><br /> <input
-				type="checkbox" class="mt-2 mr-3" name="language" value="Hindi">
+				type="checkbox" class="mt-2 mr-3" name="language" value="Hindi" ${fn:contains(user.languages,'Hindi') ? 'checked':'' }>
 				<label class="text-gray-700 dark:text-gray-400">Hindi</label><br />
 				<input type="checkbox" class="mt-2 mr-3" name="language"
-				value="English"> <label
+				value="English" ${fn:contains(user.languages,'English') ? 'checked':'' }> <label
 				class="text-gray-700 dark:text-gray-400">English</label><br /> <span
 				id="lang_error"></span>
 
@@ -224,12 +225,12 @@ session.setAttribute("userName", userName);
 		</div>
 
 	
+				<span class="text-gray-700 dark:text-gray-400 text-lg font-semibold">Address</span>
 	<c:choose>
 		<c:when test="${profile == 'userEdit' || profile == 'adminEdit' }">
 			
 			<c:forEach items="${allAddressList}" var="allAddressList">
 			<div id="main-container">
-				<span class="text-gray-700 dark:text-gray-400 text-lg font-semibold">Address</span>
 				<div class="panel card container-item mb-2">
 					<div class="panel-body">
 						<div class="panel-body pl-2 pr-2 pb-2">
@@ -238,7 +239,7 @@ session.setAttribute("userName", userName);
                                 value="${allAddressList.addressId }">
 
 							<input type="radio" id="is_default" class="mt-3 bg-black"
-								name="is_default[]"><span
+								name="is_default[]" value="0"><span
 								class="text-gray-700 mr-4 dark:text-gray-400"> Select Default</span>
 												
 								
@@ -331,7 +332,7 @@ session.setAttribute("userName", userName);
 
 
 							<input type="radio" id="is_default" class="mt-3 bg-black"
-								name="is_default[]"><span
+								name="is_default[]"  value="0"><span
 								class="text-gray-700 mr-4 dark:text-gray-400"> Select
 								Default</span> 
 								
@@ -468,7 +469,7 @@ session.setAttribute("userName", userName);
 		});
 	</script>
 	<script>
-		$('#is_default').click(
+		/* $('#is_default').click(
 				function() {
 					var val = $("input[name='is_default[]']:checked").val();
 					var one = 1;
@@ -477,31 +478,16 @@ session.setAttribute("userName", userName);
 						$("input[name='is_default[]'][value=" + one + "]")
 								.prop('checked', true);
 						alert("chnage=" + val);
-					} else {
-						var zero = 0;
-						$("input[name='is_default[]'][value=" + zero + "]")
-								.prop('checked', false);
-						alert(val);
-
-					}
-				});
+					} 
+				}); */
 		$(document).ready(function() {
 			var parsed = new URL(location);
 			var userName = parsed.searchParams.get("user");
 			if (userName === 'admin') {
 				$(".dLogin").hide();
-				//$("#blah").removeAttr("style");
-				
+				//$("#blah").removeAttr("style")		
 
-			} else if (userName === 'adminEdit') {
-				$(".dLogin").hide();
-				$(".header_tag").text("Update Profile");
-				$("#registerButton").prop("value", "Update Profile");
-				$("#password").attr('readonly', true);
-				$("#Cpassword").attr('readonly', true);
-				$("#email").attr('readonly', true);
-				$("#register").attr('action', 'EditProfile');
-			} else if (userName === 'userEdit') {
+			}  else if (userName === 'userEdit') {
 				$(".dLogin").hide();
 				$(".header_tag").text("Update Profile");
 				$("#registerButton").prop("value", "Update Profile");
@@ -510,6 +496,18 @@ session.setAttribute("userName", userName);
 				$("#email").attr('readonly', true);
 				$("#register").attr('action', 'EditProfile');
 			}
+			else if(userName ==='adminEdit'){
+				
+				$(".dLogin").hide();
+				$(".header_tag").text("Update Profile");
+				$("#registerButton").prop("value", "Update Profile");
+				$("#password").attr('readonly', true);
+				$("#Cpassword").attr('readonly', true);
+				$("#email").attr('readonly', true);
+				$("#register").attr('action', 'EditProfile');
+			
+			}
+			
 			
 			//email ajax validation
 			
@@ -535,6 +533,9 @@ session.setAttribute("userName", userName);
 				});
 			
 			
+			
+				var selectedRadio=$("#is_default").value();
+				alert(selectedRadio);
 			
 			
 			

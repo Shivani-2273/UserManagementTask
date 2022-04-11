@@ -2,22 +2,25 @@ package com.usermanagement.model;
 
 public class Address {
 
-	private int userId , is_default;
-	private String addressLine, city, state, pin,addressId;
+	private int userId;
+	private String addressLine, city, state, pin,addressId, is_default,removeAddressId;
 
 	public Address() {}
 	
-	public Address(int userId, int is_default, String addressLine, String city, String state, String pin,
-			String addressId) {
+	
+	public Address(int userId, String addressLine, String city, String state, String pin, String addressId,
+			String is_default, String removeAddressId) {
 		super();
 		this.userId = userId;
-		this.is_default = is_default;
 		this.addressLine = addressLine;
 		this.city = city;
 		this.state = state;
 		this.pin = pin;
 		this.addressId = addressId;
+		this.is_default = is_default;
+		this.removeAddressId = removeAddressId;
 	}
+
 
 	public void setAddressId(String addressId) {
 		this.addressId = addressId;
@@ -67,19 +70,32 @@ public class Address {
 		this.pin = pin;
 	}
 
-	public void setIsDefault(int is_default) {
+	public void setIsDefault(String is_default) {
 		this.is_default = is_default;
 	}
 
-	public int getIsDefault() {
+	public String getIsDefault() {
 		return is_default;
 	}
+	public void setRemoveAddressId(String removeAddressId) {
+		this.removeAddressId=removeAddressId;
+		
+	}
+	public String getRemoveAddressId() {
+		return removeAddressId;
+	}
+
 
 	@Override
 	public String toString() {
-		return "Address [userId=" + userId + ", is_default=" + is_default + ", addressLine=" + addressLine + ", city="
-				+ city + ", state=" + state + ", pin=" + pin + ", addressId=" + addressId + "]";
+		return "Address [userId=" + userId + ", addressLine=" + addressLine + ", city=" + city + ", state=" + state
+				+ ", pin=" + pin + ", addressId=" + addressId + ", is_default=" + is_default + ", removeAddressId="
+				+ removeAddressId + "]";
 	}
+	
+	
+
+	
 
 	
 	

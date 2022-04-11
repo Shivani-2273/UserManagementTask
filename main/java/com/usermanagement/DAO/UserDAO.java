@@ -75,5 +75,7 @@ public interface UserDAO {
 	
 	public boolean checkEmail(String email);
 
+	public List<User> displayUserDetails(int userId);
+
 	
 }
