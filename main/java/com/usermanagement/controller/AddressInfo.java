@@ -1,7 +1,6 @@
 package com.usermanagement.controller;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -46,22 +45,24 @@ public class AddressInfo extends HttpServlet  {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		
+	try {
 		int user_id = Integer.parseInt(request.getParameter("user_id"));
-		try {
-			AddressService addressService = new AddressServiceImpl();
-			List<Address> defaultAddress = addressService.getDefaultAddress(user_id);  
-			HttpSession defaultAddressSession = request.getSession();
-			defaultAddressSession.setAttribute("defaultAddress", defaultAddress);
+		logger.info("User id to print address"+user_id);
+		AddressService addressService = new AddressServiceImpl();
+		
+		//call default address method to get default address
+		List<Address> defaultAddress = addressService.getAddress(user_id);  
+		//set list into session
+		HttpSession defaultAddressSession = request.getSession();
+		defaultAddressSession.setAttribute("defaultAddress", defaultAddress);
 
-			List<Address> otherAddress = addressService.getOtherAddress(user_id);
-			defaultAddressSession.setAttribute("otherAddress", otherAddress);
-			RequestDispatcher req = request.getRequestDispatcher("AddressInfo.jsp");
-			req.forward(request, response);
-		} catch (ClassNotFoundException | SQLException e) {
-			logger.info(e.toString());
-		}
+		RequestDispatcher req = request.getRequestDispatcher("AddressInfo.jsp");
+		req.forward(request, response);
 
+	}catch(Exception e) {
+		logger.info(e.toString());
+	}	
+		
 	}
 
 }

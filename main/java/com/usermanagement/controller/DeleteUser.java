@@ -11,7 +11,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.usermanagement.services.UserServiceImpl;
 import com.usermanagement.services.UserService;
@@ -31,9 +30,11 @@ public class DeleteUser extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
+		//method to get compare database email
 		PrintWriter out=response.getWriter();
 		try {
 			String email = request.getParameter("email");
+			logger.info("check uniue email"+email);
 			UserService userService = new UserServiceImpl();
 			boolean isValid = userService.checkEmail(email);
 			if (isValid) {
@@ -52,10 +53,13 @@ public class DeleteUser extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		
 		try {
 			String userId = request.getParameter("userId");
+			logger.info("User id to delete user from database"+userId);
 			UserService userService = new UserServiceImpl();
-
+            
+			//method to delete user from database using ajax
 			userService.deleteUser(userId);
 		} catch (ClassNotFoundException | SQLException e) {
 			logger.info(e.toString());

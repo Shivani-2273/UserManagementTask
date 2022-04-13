@@ -30,12 +30,12 @@ public class AddressServiceImpl implements AddressService {
 	}
 
 	@Override
-	public void updateAddress(int userId,Address addr_obj) {
+	public void updateAddress(int userId,Address addr_obj) throws SQLException {
 		addressDao.updateAddress(userId,addr_obj);
 	}
 
 	@Override
-	public List<Address> getAddress(int userId) {
+	public List<Address> getAddress(int userId) throws SQLException {
 		List<Address> list=addressDao.getAddress(userId);
 		return list;
 	}

@@ -1,18 +1,15 @@
 package com.usermanagement.DAO;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
-import com.usermanagement.model.Address;
 import com.usermanagement.model.User;
 
 public interface UserDAO {
@@ -26,9 +23,10 @@ public interface UserDAO {
 	 * @throws BadPaddingException
 	 * @throws IllegalBlockSizeException
 	 * @throws InvalidKeyException
+	 * @throws SQLException 
 	 */
-	public boolean userLogin(User obj) throws InvalidKeyException, IllegalBlockSizeException, BadPaddingException,
-			NoSuchAlgorithmException, NoSuchPaddingException;
+	 boolean userLogin(User obj) throws InvalidKeyException, IllegalBlockSizeException, BadPaddingException,
+			NoSuchAlgorithmException, NoSuchPaddingException, SQLException;
 
 	/**
 	 * This method will add details of user into user table of database
@@ -36,46 +34,71 @@ public interface UserDAO {
 	 * @param image
 	 * @return
 	 * @throws IOException
+	 * @throws SQLException 
 	 */
-	public int userRegister(User obj) throws IOException;
+	 int userRegister(User obj) throws IOException, SQLException;
 
 	
 	/**
 	 * This method return list of all normal user
 	 * @return
+	 * @throws SQLException 
 	 */
-	public List<User> getAllUser();
+	 List<User> getAllUser() throws SQLException;
 
 	/**
 	 * This method will delete user from table
 	 * @param userId
+	 * @throws SQLException 
 	 */
-	public void deleteUser(String userId);
+	 void deleteUser(String userId) throws SQLException;
 
 	/**
 	 * This method will reset password of user
 	 * @param user
 	 */
-	public void resetPassword(User user);
+	 void resetPassword(User user);
 
 	/**
 	 * This method will display user profile on home page after login
 	 * @param user
 	 * @return
+	 * @throws SQLException 
 	 */
-	public List<User> displayProfile(User user);
+	 List<User> displayProfile(User user) throws SQLException;
 	
 	/**
 	 * This method will update user profile and store updated details in database
 	 * @param user
 	 */
-	public int updateProfile(User user);
+	 int updateProfile(User user);
 	
-	public void  getCSVFile(String startDate,String endDate);
 	
-	public boolean checkEmail(String email);
+	/**
+	 * This will generate csv file
+	 * @param startDate
+	 * @param endDate
+	 * @throws SQLException 
+	 */
+	 void  getCSVFile(String startDate,String endDate) throws SQLException;
+	
+	
+	
+	/**
+	 * This will compare email with stored email
+	 * @param email
+	 * @return
+	 * @throws SQLException 
+	 */
+	 boolean checkEmail(String email) throws SQLException;
 
-	public List<User> displayUserDetails(int userId);
+	/**
+	 * this is will details of user
+	 * @param userId
+	 * @return
+	 * @throws SQLException 
+	 */
+	 List<User> displayUserDetails(int userId) throws SQLException;
 
 	
 }

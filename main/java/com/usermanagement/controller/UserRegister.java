@@ -72,6 +72,7 @@ public class UserRegister extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+	
 		User user = new User();
 		try {
 			AddressService addressService = new AddressServiceImpl();
@@ -85,19 +86,21 @@ public class UserRegister extends HttpServlet {
 			user.setGender(request.getParameter("gender"));
 			user.setBirthDate(request.getParameter("birthDate"));
 
-			
+			//set image
 			Part img_file = request.getPart("img");
 			InputStream image = img_file.getInputStream();
 			user.setImage(image);
 			
-			String languages = "";
+			//set languages
 			String[] lang = request.getParameterValues("language");
-			for (int i = 0; i < lang.length; i++) {
-				languages += lang[i] + ",";
+			StringBuffer buffer = new StringBuffer();
+			for (int i = 0; i < lang.length; ++i) {
+			    buffer.append(lang[i]+",");
 			}
-			String check_languges=languages.substring(0,languages.length()-1);
-			user.setLanguages(check_languges);
-
+			String languages = buffer.toString();
+			user.setLanguages(languages);
+	
+			
 			//set password in encrypted format
 			String password = request.getParameter("password");
 			String input = password;
@@ -107,31 +110,13 @@ public class UserRegister extends HttpServlet {
 
 			//call add user method to add user into database
 			int userId=userService.addUser(user);
-			
-			//int is_default=Integer.parseInt(request.getParameter("is_default"));
-			/*
-			 * int[] is_default_values={}; String[]
-			 * is_default=request.getParameterValues("is_default[]"); for(int
-			 * i=0;i<is_default.length;i++) {
-			 * is_default_values[i]=Integer.parseInt(is_default[i]); }
-			 */
-			
-			
-		//String[] is_default=request.getParameterValues("is_default[]");
-			/*
-			 * String[] is_default_values=request.getParameterValues("is_default[]");
-			 * for(int i=0;i<is_default_values.length;i++) {
-			 * System.out.print(is_default_values[i]); } int[] is_default={}; for(int
-			 * i=0;i<is_default_values.length;i++) { if(is_default_values[i].equals("on")) {
-			 * is_default[i]=1; }else { is_default[i]=0; } }
-			 */
-			//String[] defaultValue=request.getParameterValues("is_default[]");
+		
 			String[] addressLine = request.getParameterValues("Address[]");
 			String[] city = request.getParameterValues("City[]");
 			String[] state = request.getParameterValues("State[]");
 			String[] pin = request.getParameterValues("Pin[]");
 
-			//
+			
 			
 			int loopCounter = 0;
 			while (loopCounter < addressLine.length) {
@@ -142,22 +127,14 @@ public class UserRegister extends HttpServlet {
 				addr_obj.setCity(city[loopCounter]);
 				addr_obj.setState(state[loopCounter]);
 				addr_obj.setPin(pin[loopCounter]);
-				//System.out.println("def "+is_default[loopCounter]);
-				/*
-				 * if(defaultValue[loopCounter].equals("1")) { addr_obj.setIsDefault("1"); }else
-				 * { addr_obj.setIsDefault("0");
-				 * 
-				 * }
-				 */
-				//addr_obj.setIsDefault(is_default[loopCounter]);
-					
+				
 				addressService.addAddress(userId,addr_obj);
 				loopCounter++;
 			}
 		
+			//get username from url to redirect page
 			HttpSession session=request.getSession();
 			String userName=(String) session.getAttribute("userName");
-			
 			if(userName!=null) {
 				response.sendRedirect("AdminDashboard.jsp");
 			}else {

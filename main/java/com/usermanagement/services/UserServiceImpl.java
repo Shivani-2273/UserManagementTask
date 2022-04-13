@@ -1,7 +1,6 @@
 package com.usermanagement.services;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
@@ -12,8 +11,6 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
 import com.usermanagement.DAO.UserDAOImpl;
-import com.usermanagement.DAO.AddressDAO;
-import com.usermanagement.DAO.AddressDAOImpl;
 import com.usermanagement.DAO.UserDAO;
 import com.usermanagement.model.User;
 
@@ -52,7 +49,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> displayProfile(User user) {
+	public List<User> displayProfile(User user) throws SQLException {
 		List<User> list=userDao.displayProfile(user);
 		return list;
 	}
@@ -70,13 +67,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean checkEmail(String email) {
+	public boolean checkEmail(String email) throws SQLException {
 		boolean flag=userDao.checkEmail(email);
 		return flag;
 	}
 
 	@Override
-	public List<User> displayUserDetails(int userId) {
+	public List<User> displayUserDetails(int userId) throws SQLException {
 		List<User> list=userDao.displayUserDetails(userId);
 		return list;
 	}

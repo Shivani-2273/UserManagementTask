@@ -3,11 +3,12 @@ package com.usermanagement.model;
 
 import java.io.InputStream;
 import java.io.Serializable;
-import java.sql.Blob;
 
 
-public class User {
 
+public class User implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 	private int userId;
 	private boolean isAdmin;
 	private String firstName, lastName, email, password, contactNo, gender, birthDate, languages, createdAt, updatedAt;
@@ -21,7 +22,7 @@ public class User {
 	
 	public User(int userId, boolean isAdmin, String firstName, String lastName, String email, String password,
 			String contactNo, String gender, String birthDate, String languages, String createdAt, String updatedAt,
-			InputStream image, String base64Image, Blob userProfileBlob) {
+			InputStream image, String base64Image) {
 		super();
 		this.userId = userId;
 		this.isAdmin = isAdmin;
@@ -153,7 +154,6 @@ public class User {
 		this.base64Image = base64Image;
 	}
 
-	
 
 	@Override
 	public String toString() {
@@ -162,6 +162,9 @@ public class User {
 				+ ", birthDate=" + birthDate + ", languages=" + languages + ", createdAt=" + createdAt + ", updatedAt="
 				+ updatedAt + ", image=" + image + ", base64Image=" + base64Image + "]";
 	}
+
+	
+
 
 	
 

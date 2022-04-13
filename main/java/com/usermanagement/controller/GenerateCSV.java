@@ -1,10 +1,7 @@
 package com.usermanagement.controller;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,13 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.opencsv.CSVWriter;
-import com.opencsv.bean.ColumnPositionMappingStrategy;
-import com.opencsv.bean.StatefulBeanToCsv;
-import com.opencsv.bean.StatefulBeanToCsvBuilder;
-import com.opencsv.exceptions.CsvDataTypeMismatchException;
-import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
-import com.usermanagement.model.User;
 import com.usermanagement.services.UserServiceImpl;
 import com.usermanagement.services.UserService;
 
@@ -53,12 +43,15 @@ public class GenerateCSV extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
+			//get start date and end date for getting login info of users
 			String startDate = request.getParameter("startDate");
 			String endDate = request.getParameter("endDate");
 
 			UserService userService = new UserServiceImpl();
-
+			
+			//all method to generate csv file
 			userService.getCSVFile(startDate, endDate);
+			
 			RequestDispatcher req = request.getRequestDispatcher("LoginInfo.jsp");
 			req.forward(request, response);
 		} catch (ClassNotFoundException | SQLException e) {

@@ -14,9 +14,9 @@
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 120px;
+  width: 110px;
    border-radius:20%;
-   height:150px;
+   height:130px;
 }
 </style>
 <meta charset="UTF-8" />
@@ -187,7 +187,7 @@
 				</div>
 			</header>
 						<main class="h-screen  w-4/5  mx-auto  ">
-						<div class="w-2/3 mx-auto mt-10 text-center">
+						<div class="w-2/3 mx-auto mt-10 text-center ">
 					
 						<h1 class="font-large my-2 text-4xl">Your Profile</h1>
 					<table class="table">						
@@ -209,16 +209,19 @@
 								<tr  class="border-2">
 									<td class="font-bold border-2">Profile Image</td><td class="border-2"><img src="data:image/jpg;base64,${profileData.base64Image}"  class="center"> </td>
 							
+							
+							
+							<c:forEach items="${addressDetails}" var="addressDetails">   
 								<tr  class="border-2">
 									<td class="font-bold border-2">Address
-										<label class="switch">
+										<%-- <label class="switch">
  										 <input type="checkbox" class="getAddress" id="${profileData.userId}">
  											 <span class="slider round"></span>
-									</label>
+									</label> --%>
 									</td>
 									
 									<td class="border-2">
-										<c:forEach items="${addressDetails}" var="addressDetails">          							
+										       							
             				
 								 ${addressDetails.addressLine},<br/>
 							
@@ -226,19 +229,20 @@
             					
             					 ${addressDetails.state}<br/> 
             				   <br/>            						
-              						
+              					</td>	
               			</c:forEach>			
-							</td>
+							
 							</c:forEach>		
 					</table>
 					</div>
 						</main>
-		<jsp:include page="Footer.jsp" /> 
+		
 						
 						
 			</div>
 		
 		</div>
+		
 <script>		
 $(".getAddress").on("change", function() {
 	alert("called");
@@ -259,6 +263,6 @@ $(".getAddress").on("change", function() {
 </script>
 		
 		
-
+ 
 </body>
 </html>

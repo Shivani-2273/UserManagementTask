@@ -289,7 +289,7 @@
 										<td>${UserList.birthDate}</td>
 										<td>${UserList.languages}</td>
 										<td><img src="data:image/jpg;base64,${UserList.base64Image}" width="100px" height="3px" style="border-radius:20%"></td>
-										<td><a href="GetUserData?userId=${UserList.userId}">
+										<td><a href="GetUserData?user=adminEdit&userId=${UserList.userId}">
 										<i class="fa-solid fa-pen-to-square fa-lg"></i></a>&nbsp;&nbsp;
 										<i class="fa-solid fa-trash fa-lg delete" id="${UserList.userId}"></i></td>
 									</tr>

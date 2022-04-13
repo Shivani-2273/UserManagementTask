@@ -510,6 +510,7 @@
 		if (email_error === false && password_error === false && Cpassword_error === false) {
 			return true;
 		} else {
+			
 			return false;
 		}
 

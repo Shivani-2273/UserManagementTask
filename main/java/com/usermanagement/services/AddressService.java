@@ -14,7 +14,7 @@ public interface AddressService {
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public void addAddress(int userId,Address addr_obj) throws ClassNotFoundException, SQLException;
+	 void addAddress(int userId,Address addr_obj) throws ClassNotFoundException, SQLException;
 	
 	/**
 	 * This method will list default address details
@@ -23,7 +23,7 @@ public interface AddressService {
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public List<Address> getDefaultAddress(int user_id) throws ClassNotFoundException, SQLException;
+	 List<Address> getDefaultAddress(int user_id) throws ClassNotFoundException, SQLException;
 	
 	/**
 	 * This method will list other address details
@@ -32,10 +32,22 @@ public interface AddressService {
 	 * @throws SQLException 
 	 * @throws ClassNotFoundException 
 	 */
-	public List<Address> getOtherAddress(int user_id) throws ClassNotFoundException, SQLException;
+	 List<Address> getOtherAddress(int user_id) throws ClassNotFoundException, SQLException;
 	
-	public void updateAddress(int userId,Address addr_obj);
+	/**
+	 * This will update address details of given user id
+	 * @param userId
+	 * @param addr_obj
+	 * @throws SQLException 
+	 */
+	 void updateAddress(int userId,Address addr_obj) throws SQLException;
 	
-	public List<Address> getAddress(int userId);
+	/**
+	 * Get list of all address of given user id
+	 * @param userId
+	 * @return
+	 * @throws SQLException 
+	 */
+	 List<Address> getAddress(int userId) throws SQLException;
 	
 }

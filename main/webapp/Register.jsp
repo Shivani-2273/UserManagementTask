@@ -59,11 +59,13 @@ session.setAttribute("userName", userName);
 <script src="assets/js/init-alpine.js"></script>
 
 </head>
-
+	
 <body>
 
 	<c:set var="user" scope="session" value="${sessionScope.CurrentUser}" />
-<c:set var="profile" scope="request" value='<%= request.getParameter("user") %>'/>
+ 
+ 	<c:set var="profile" value='<%= request.getParameter("user") %>' scope="request"/> 
+
 
 	<form action="RegisterURL" method="POST" enctype='multipart/form-data'
 		id="register"
@@ -225,12 +227,14 @@ session.setAttribute("userName", userName);
 		</div>
 
 	
-				<span class="text-gray-700 dark:text-gray-400 text-lg font-semibold">Address</span>
+				
 	<c:choose>
 		<c:when test="${profile == 'userEdit' || profile == 'adminEdit' }">
 			
-			<c:forEach items="${allAddressList}" var="allAddressList">
+			
 			<div id="main-container">
+			<span class="text-gray-700 dark:text-gray-400 text-lg font-semibold">Address</span>
+				<c:forEach items="${allAddressList}" var="allAddressList">
 				<div class="panel card container-item mb-2">
 					<div class="panel-body">
 						<div class="panel-body pl-2 pr-2 pb-2">
@@ -238,9 +242,9 @@ session.setAttribute("userName", userName);
 							<input type="hidden" name="addressId[]"
                                 value="${allAddressList.addressId }">
 
-							<input type="radio" id="is_default" class="mt-3 bg-black"
-								name="is_default[]" value="0"><span
-								class="text-gray-700 mr-4 dark:text-gray-400"> Select Default</span>
+							<%-- <input type="radio" id="is_default" class="mt-3 bg-black"
+								name="is_default[]" value="1"  ${allAddressList.is_default == '1' ? 'checked':''}><span
+								class="text-gray-700 mr-4 dark:text-gray-400"> Select Default</span> --%>
 												
 								
 								 <label class="block mt-2 text-md font-semibold"><span class="text-gray-700 dark:text-gray-400">Street
@@ -312,8 +316,9 @@ session.setAttribute("userName", userName);
 					</div>
 
 				</div>
+				</c:forEach>
 			</div>
-		</c:forEach>
+	
 		 <div class="grid w-1/2 justify-start">
 			<a class="px-4 py-2 bg-green-400 text-white rounded " id="add-more"
 				href="javascript:;" role="button"><i class="fa fa-plus"></i> Add
@@ -331,10 +336,10 @@ session.setAttribute("userName", userName);
 						<div class="panel-body pl-2 pr-2 pb-2">
 
 
-							<input type="radio" id="is_default" class="mt-3 bg-black"
-								name="is_default[]"  value="0"><span
+							<!-- <input type="radio" id="is_default" class="mt-3 bg-black"
+								name="is_default[]"  value="1"><span
 								class="text-gray-700 mr-4 dark:text-gray-400"> Select
-								Default</span> 
+								Default</span>  -->
 								
 								<label class="block mt-2 text-md font-semibold">
 								<span class="text-gray-700 dark:text-gray-400">Street
@@ -411,9 +416,24 @@ session.setAttribute("userName", userName);
 		</c:otherwise>
 	</c:choose>
 	
-				<input type="submit" value="Register" id="registerButton"
-			class="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+	<c:choose>
+		<c:when test="${profile == 'userEdit' || profile == 'adminEdit' }">
+		<input type="submit" value="Register" id="registerButton"
+			class=" w-50% px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+		
+		<a href="" id="Cancle"
+			class=" w-50% px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Cancel</a>
+		
+		
 		<hr class="my-8" />
+	</c:when>
+	<c:otherwise>
+	<input type="submit" value="Register" id="registerButton"
+			class=" w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+		<hr class="my-8" />
+	</c:otherwise>
+	</c:choose>
+				
 
 		<p class="mt-4">
 			<a
@@ -495,6 +515,7 @@ session.setAttribute("userName", userName);
 				$("#Cpassword").attr('readonly', true);
 				$("#email").attr('readonly', true);
 				$("#register").attr('action', 'EditProfile');
+				$("#Cancle").attr("href","UserDashboard.jsp");
 			}
 			else if(userName ==='adminEdit'){
 				
@@ -505,6 +526,7 @@ session.setAttribute("userName", userName);
 				$("#Cpassword").attr('readonly', true);
 				$("#email").attr('readonly', true);
 				$("#register").attr('action', 'EditProfile');
+				$("#Cancle").attr("href","AdminDashboard.jsp");
 			
 			}
 			

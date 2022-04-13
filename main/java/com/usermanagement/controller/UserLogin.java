@@ -39,18 +39,21 @@ public class UserLogin extends HttpServlet {
 	 */
 	public UserLogin() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		//get user address on change of toggel button
 		AddressService addressService = new AddressServiceImpl();
-
 		int userId = Integer.parseInt(request.getParameter("userId"));
-
+		logger.info("userId"+userId);
+		
 		try {
+			//get address into list
 			List<Address> addressDetails = addressService.getOtherAddress(userId);
 			HttpSession session = request.getSession();
+			//store data into list
 			session.setAttribute("addressDetails", addressDetails);
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
@@ -63,7 +66,6 @@ public class UserLogin extends HttpServlet {
 		User user = new User();
 		try {
 			UserService userService = new UserServiceImpl();
-			AddressService addressService = new AddressServiceImpl();
 			// set email id and password for login
 			user.setEmail(request.getParameter("email"));
 			String password = request.getParameter("password");
@@ -74,10 +76,10 @@ public class UserLogin extends HttpServlet {
 			String pass = new String(encryptionBytes);
 			user.setPassword(pass);
 
-			// if valid then check for status and not if not valid then redirect to login
-			// page
+			// if valid then check for status and not if not valid then redirect to login page
 			boolean isValid = false;
 			HttpSession session = request.getSession();
+			AddressService addressService=new AddressServiceImpl();
 
 			isValid = userService.compareLoginDetails(user);
 
@@ -92,23 +94,28 @@ public class UserLogin extends HttpServlet {
 
 				} else {
 					// profile display after login for user
-					List<User> list = userService.displayProfile(user);
+					//12/04
+				    List<User> list = userService.displayProfile(user);
 					int userId = list.get(0).getUserId();
-
+					logger.info("userId"+userId);
+				
 					session.setAttribute("CurrentUser", user);	
 		
 					session.setAttribute("profileData", list);
 
-					// address display for logged in user on home page List<Address>
-					List<Address> addressDetails = addressService.getDefaultAddress(userId);
+					// address display for logged in user on home page 
+					
+					List<Address> addressDetails = addressService.getAddress(userId);
 					session.setAttribute("addressDetails", addressDetails);
 
 					// getall address
+					
 					List<Address> allAddressList = addressService.getAddress(userId);
 					session.setAttribute("allAddressList", allAddressList);
 
+					
 					RequestDispatcher req = request.getRequestDispatcher("UserDashboard.jsp");
-					req.forward(request, response);
+					req.include(request, response);
 				}
 			} else {
 				RequestDispatcher req = request.getRequestDispatcher("UserLogin.jsp");

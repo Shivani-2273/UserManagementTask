@@ -225,7 +225,7 @@
 			<div
 					class="w-2/3 mx-auto mt-16 text-center">
 					
-						<h1 class="font-medium my-2 text-xl">Default Address</h1>
+						<h1 class="font-medium my-2 text-xl">Address</h1>
 					<table class="table">						
 							<c:forEach items="${defaultAddress}" var="defaultAddress">
 								<tr  class="border-2">
@@ -241,22 +241,8 @@
 									<td class="font-bold border-2">Pin</td><td class="border-2">${defaultAddress.pin}</td>
 							</c:forEach>		
 					</table>
-					<h1 class="font-medium my-2 text-xl">Other Address</h1>
-					<table class="table">						
-							<c:forEach items="${otherAddress}" var="otherAddress">
-								<tr  class="border-2">
-									<td class="font-bold border-2">Street Line</td><td class="border-2">${otherAddress.addressLine}</td>
-								
-								<tr  class="border-2">
-									<td class="font-bold border-2">City</td><td class="border-2">${otherAddress.city}</td>
-								
-								<tr  class="border-2">
-									<td class="font-bold border-2">State</td><td class="border-2">${otherAddress.state}</td>
-								
-								<tr  class="border-2">
-									<td class="font-bold border-2">Pin</td><td class="border-2">${otherAddress.pin}</td>
-							</c:forEach>		
-					</table>
+					
+	
 					
 				</div>
 			

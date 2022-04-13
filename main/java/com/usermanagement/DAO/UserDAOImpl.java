@@ -1,7 +1,13 @@
 package com.usermanagement.DAO;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.Writer;
+import java.nio.charset.Charset;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,7 +27,8 @@ public class UserDAOImpl implements UserDAO {
 	Connection connection;
 	private static Logger logger = Logger.getLogger(UserDAOImpl.class.getName());
 	PreparedStatement pstmt = null;
-
+	Statement stmt=null;
+	ResultSet rs=null;
 	public UserDAOImpl() {
 		try {
 			connection = MyConnection.getInstance().getConnection();
@@ -33,14 +40,14 @@ public class UserDAOImpl implements UserDAO {
 
 	
 	@Override
-	public boolean userLogin(User obj) {
+	public boolean userLogin(User obj) throws SQLException {
 		logger.info("User Data"+obj.toString());
 
 		try {
 			pstmt = connection.prepareStatement("select * from user where email=? and password=?");
 			pstmt.setString(1, obj.getEmail());
 			pstmt.setString(2, obj.getPassword());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
 				boolean status = rs.getBoolean(11);
@@ -72,13 +79,15 @@ public class UserDAOImpl implements UserDAO {
 		} catch (SQLException e) {
 			logger.info(e.toString());
 
+		}finally {
+			rs.close();
 		}
 
 		return false;
 	}
 
 	@Override
-	public int userRegister(User obj) throws IOException {
+	public int userRegister(User obj) throws IOException, SQLException {
 		logger.info("User Data"+obj.toString());
 		int id = 0;
 		try {
@@ -96,7 +105,7 @@ public class UserDAOImpl implements UserDAO {
 			
 			pstmt.executeUpdate();
 			pstmt=connection.prepareStatement("select user_id from user");
-			ResultSet rs=pstmt.executeQuery();
+			rs=pstmt.executeQuery();
 			while(rs.next()) {
 				id=rs.getInt("user_id");
 			}
@@ -104,52 +113,59 @@ public class UserDAOImpl implements UserDAO {
 		} catch (SQLException e) {
 			logger.info(e.toString());
 
+		}finally {
+			rs.close();
 		}
 		return id;
 
 	}
 
 	@Override
-	public List<User> getAllUser() {
+	public List<User> getAllUser() throws SQLException {
 		List<User> list = new ArrayList<User>();
 		try {
 			pstmt = connection.prepareStatement("select * from user where is_admin=0");
-			ResultSet res = pstmt.executeQuery();
-			while (res.next()) {
+			 rs = pstmt.executeQuery();
+			while (rs.next()) {
 				User user = new User();
-				user.setUserId(res.getInt("user_id"));
-				user.setFirstName(res.getString("first_name"));
-				user.setLastName(res.getString("last_name"));
-				user.setEmail(res.getString("email"));
-				user.setContactNo(res.getString("contact_no"));
-				user.setGender(res.getString("gender"));
-				user.setBirthDate(res.getString("date_of_birth"));
-				user.setLanguages(res.getString("language"));
+				user.setUserId(rs.getInt("user_id"));
+				user.setFirstName(rs.getString("first_name"));
+				user.setLastName(rs.getString("last_name"));
+				user.setEmail(rs.getString("email"));
+				user.setContactNo(rs.getString("contact_no"));
+				user.setGender(rs.getString("gender"));
+				user.setBirthDate(rs.getString("date_of_birth"));
+				user.setLanguages(rs.getString("language"));
 				
-				Blob blob = res.getBlob("profile_image");
+				Blob blob = rs.getBlob("profile_image");
 				byte[] photo = blob.getBytes(1, (int) blob.length());
 				String base64Image = Base64.getEncoder().encodeToString(photo);
 				user.setBase64Image(base64Image);
 				list.add(user);
+				logger.info("All user details"+user.toString());
 			}
 		} catch (SQLException e) {
 			logger.info(e.toString());
 
+		}finally {
+			rs.close();
 		}
 		return list;
 
 	}
 
 	@Override
-	public void deleteUser(String userId) {
+	public void deleteUser(String userId) throws SQLException {
 		try {
 			
-			Statement stmt = connection.createStatement();
-			String deleteQuery = "DELETE FROM user WHERE user_id='" + userId + "'";
-			stmt.executeUpdate(deleteQuery);
+			 pstmt = connection.prepareStatement("DELETE FROM user WHERE user_id=?");
+			 pstmt.setString(1, userId);
+			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			logger.info(e.toString());
 
+		}finally {
+			pstmt.close();
 		}
 	}
 
@@ -167,13 +183,13 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public List<User> displayProfile(User user) {
+	public List<User> displayProfile(User user) throws SQLException {
 		List<User> list = new ArrayList<User>();
 		try {
 			pstmt=connection.prepareStatement("select * from user where email=? and password=?");
 			pstmt.setString(1,user.getEmail());
 			pstmt.setString(2,user.getPassword());
-			ResultSet rs=pstmt.executeQuery();
+			rs=pstmt.executeQuery();
 			while(rs.next()) {
 				user=new User();
 				user.setUserId(rs.getInt("user_id"));
@@ -190,9 +206,12 @@ public class UserDAOImpl implements UserDAO {
 				String base64Image = Base64.getEncoder().encodeToString(photo);
 				user.setBase64Image(base64Image);
 				list.add(user);
+				logger.info("profile list"+user.toString());
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			rs.close();
 		}
 		return list;
 			
@@ -201,9 +220,10 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public int updateProfile(User user) {
+		System.out.println("in update profile function");
 		int id=0;
 		try {
-			pstmt=connection.prepareStatement("UPDATE user SET first_name=?, last_name=?, contact_no=?, date_of_birth=?,language=? ,gender=?,profile_image=? WHERE user_id=? ");
+			pstmt=connection.prepareStatement("UPDATE user SET first_name=?, last_name=?, contact_no=?, date_of_birth=?,language=? ,gender=?,profile_image=? WHERE email=? ");
 			pstmt.setString(1,user.getFirstName());
 			pstmt.setString(2,user.getLastName());
 			pstmt.setString(3,user.getContactNo());
@@ -211,13 +231,10 @@ public class UserDAOImpl implements UserDAO {
 			pstmt.setString(5,user.getLanguages());
 			pstmt.setString(6, user.getGender());
 			pstmt.setBlob(7,user.getImage());
-			pstmt.setInt(8, user.getUserId());
-			
+			pstmt.setString(8, user.getEmail());
 			pstmt.executeUpdate();
 			id=user.getUserId();
 	
-			
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -225,9 +242,13 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public void getCSVFile(String startDate,String endDate) {	
+	public void getCSVFile(String startDate,String endDate) throws SQLException {	
 	try {
-			FileWriter fw = new FileWriter("S:\\UserLoginInfo_CSV\\Login.csv");
+	
+			File file = new File("S:\\UserLoginInfo_CSV\\Login.csv");
+			Writer w = new OutputStreamWriter(new FileOutputStream(file),Charset.forName("UTF-8").newEncoder());
+			PrintWriter fw = new PrintWriter(w);
+			//FileWriter fw = new FileWriter("S:\\UserLoginInfo_CSV\\Login.csv");
 				fw.append("First Name");
 				fw.append(',');
 				fw.append("Last Name");
@@ -238,7 +259,7 @@ public class UserDAOImpl implements UserDAO {
 		
 			pstmt.setString(1, startDate);
 			pstmt.setString(2, endDate);
-			ResultSet rs=pstmt.executeQuery();
+			rs=pstmt.executeQuery();
 			while(rs.next()) {
 				fw.append(rs.getString(1));
 				fw.append(',');
@@ -252,23 +273,26 @@ public class UserDAOImpl implements UserDAO {
 			
 		} catch (IOException | SQLException e) {
 			logger.info(e.toString());
+		}finally {
+			rs.close();
 		}
 		
 	}
 
 
 	@Override
-	public boolean checkEmail(String email) {
+	public boolean checkEmail(String email) throws SQLException {
 		
 		try {
 			pstmt=connection.prepareStatement("select email from user where email=?");
 			pstmt.setString(1, email);
-			ResultSet rs=pstmt.executeQuery();
-			while(rs.next()) {
+			rs=pstmt.executeQuery();
+			while(rs.next()) 
 				return true;
-			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			rs.close();
 		}
 		return false;
 		
@@ -277,12 +301,12 @@ public class UserDAOImpl implements UserDAO {
 
 
 	@Override
-	public List<User> displayUserDetails(int userId) {
+	public List<User> displayUserDetails(int userId) throws SQLException {
 		List<User> list = new ArrayList<User>();
 		try {
 			pstmt=connection.prepareStatement("select * from user where user_id=?");
 			pstmt.setInt(1, userId);
-			ResultSet rs=pstmt.executeQuery();
+			rs=pstmt.executeQuery();
 			while(rs.next()) {
 				User user=new User();
 				user.setFirstName(rs.getString("first_name"));
@@ -290,6 +314,7 @@ public class UserDAOImpl implements UserDAO {
 				user.setEmail(rs.getString("email"));
 				user.setContactNo(rs.getString("contact_no"));
 				user.setGender(rs.getString("gender"));
+				user.setPassword(rs.getString("password"));
 				user.setBirthDate(rs.getString("date_of_birth"));
 				user.setLanguages(rs.getString("language"));
 				
@@ -301,6 +326,8 @@ public class UserDAOImpl implements UserDAO {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			rs.close();
 		}
 		return list;
 	}

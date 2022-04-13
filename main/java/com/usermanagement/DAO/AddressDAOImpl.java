@@ -4,9 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.List;
 
 import com.usermanagement.model.Address;
@@ -18,7 +18,7 @@ public class AddressDAOImpl implements AddressDAO {
 
 	Connection connection;
 	PreparedStatement pstmt = null;
-	// int [] removeId= {};
+	ResultSet res=null;
 	private static Logger logger = Logger.getLogger(AddressDAOImpl.class.getName());
 
 	public AddressDAOImpl() {
@@ -31,9 +31,9 @@ public class AddressDAOImpl implements AddressDAO {
 	}
 
 	@Override
-	public void addAddress(int userId, Address addr_obj) {
+	public void addAddress(int userId, Address addr_obj) throws SQLException {
 		try {
-			PreparedStatement pstmt = connection.prepareStatement(
+			 pstmt = connection.prepareStatement(
 					"insert into address(user_id,street_address_line,city,state,pin) values(?,?,?,?,?)");
 
 			pstmt.setInt(1, userId);
@@ -41,28 +41,26 @@ public class AddressDAOImpl implements AddressDAO {
 			pstmt.setString(3, addr_obj.getCity());
 			pstmt.setString(4, addr_obj.getState());
 			pstmt.setString(5, addr_obj.getPin());
-			// pstmt.setString(6, addr_obj.getIsDefault());
 			pstmt.executeUpdate();
 
 		} catch (SQLException e) {
 			logger.info(e.toString());
 
+		}finally {
+			pstmt.close();
 		}
 	}
 
 	@Override
-	public List<Address> getDefaultAddress(int user_id) {
+	public List<Address> getDefaultAddress(int user_id) throws SQLException {
 		List<Address> list = new ArrayList<Address>();
 
 		try {
 			pstmt = connection.prepareStatement("select * from address where user_id =? and is_default=1");
 			pstmt.setInt(1, user_id);
-			ResultSet res = pstmt.executeQuery();
+			res = pstmt.executeQuery();
 			while (res.next()) {
-				// boolean is_default=res.getBoolean("is_default")
 				Address obj = new Address();
-
-				// today comment
 				obj.setAddressId(res.getString("address_id"));
 				obj.setUserId(res.getInt("user_id"));
 				obj.setAddressLine(res.getString("street_address_line"));
@@ -71,22 +69,26 @@ public class AddressDAOImpl implements AddressDAO {
 				obj.setPin(res.getString("pin"));
 
 				list.add(obj);
+				logger.info("default address" + obj.toString());
 			}
 		} catch (SQLException e) {
 			logger.info(e.toString());
 
+		}finally {
+			res.close();
 		}
+		
 		return list;
 
 	}
 
 	@Override
-	public List<Address> getOtherAddress(int user_id) {
+	public List<Address> getOtherAddress(int user_id) throws SQLException {
 		List<Address> list = new ArrayList<Address>();
 		try {
 			pstmt = connection.prepareStatement("select * from address where user_id =? and is_default=0");
 			pstmt.setInt(1, user_id);
-			ResultSet res = pstmt.executeQuery();
+			res = pstmt.executeQuery();
 			while (res.next()) {
 				Address obj = new Address();
 				obj.setAddressLine(res.getString("street_address_line"));
@@ -94,10 +96,13 @@ public class AddressDAOImpl implements AddressDAO {
 				obj.setState(res.getString("state"));
 				obj.setPin(res.getString("pin"));
 				list.add(obj);
+				logger.info("Other address" + obj.toString());
 			}
 		} catch (SQLException e) {
 			logger.info(e.toString());
 
+		}finally {
+			res.close();
 		}
 		return list;
 	}
@@ -116,7 +121,7 @@ public class AddressDAOImpl implements AddressDAO {
 	}
 
 	@Override
-	public void updateAddress(int userId, Address addr_obj) {
+	public void updateAddress(int userId, Address addr_obj) throws SQLException {
 
 		// to add new address
 		if (addr_obj.getAddressId().isEmpty()) {
@@ -131,9 +136,9 @@ public class AddressDAOImpl implements AddressDAO {
 			deleteAddress(removeId);
 		}
 
-		//to update changes in function
+		// to update changes in function
 		try {
-			PreparedStatement pstmt = connection.prepareStatement(
+			 pstmt = connection.prepareStatement(
 					"update address set street_address_line =?,city=?,state=?,pin=? where user_id=? and address_id=? ");
 
 			pstmt.setString(1, addr_obj.getAddressLine());
@@ -149,34 +154,36 @@ public class AddressDAOImpl implements AddressDAO {
 		} catch (SQLException e) {
 			logger.info(e.toString());
 
+		}finally {
+			pstmt.close();
 		}
 
 	}
 
 	@Override
-	public List<Address> getAddress(int userId) {
+	public List<Address> getAddress(int userId) throws SQLException {
 		List<Address> list = new ArrayList<Address>();
 		try {
 			pstmt = connection.prepareStatement("select * from address where user_id =?");
 
 			pstmt.setInt(1, userId);
 
-			ResultSet res = pstmt.executeQuery();
+			res = pstmt.executeQuery();
 			while (res.next()) {
 				Address obj = new Address();
 				obj.setUserId(res.getInt("user_id"));
-				// today comment
 				obj.setAddressId(res.getString("address_id"));
 				obj.setAddressLine(res.getString("street_address_line"));
 				obj.setCity(res.getString("city"));
 				obj.setState(res.getString("state"));
 				obj.setPin(res.getString("pin"));
-
 				list.add(obj);
 			}
 		} catch (SQLException e) {
 			logger.info(e.toString());
 
+		}finally {
+			res.close();
 		}
 		return list;
 

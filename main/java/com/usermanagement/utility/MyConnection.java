@@ -6,8 +6,11 @@ import java.sql.SQLException;
 
 public class MyConnection {
 	
-		public static MyConnection obj=null;
-		public static Connection connection=null;
+	
+		protected static MyConnection obj=null;
+		protected static Connection connection=null;
+		
+		//register driver class for database connection
 		private MyConnection() {
 			try {
 				Class.forName("com.mysql.cj.jdbc.Driver");
@@ -16,6 +19,7 @@ public class MyConnection {
 			}
 		}
 		
+		//create object if it is null
 		public static MyConnection getInstance() {
 			if(obj!=null) {
 				return obj;
@@ -25,8 +29,9 @@ public class MyConnection {
 			}
 		}
 		
+		//provide database connection 
 		public Connection getConnection() throws SQLException,ClassNotFoundException {
-			connection=DriverManager.getConnection("jdbc:mysql://localhost:3306/usermanagement","root","");
+			connection=DriverManager.getConnection("jdbc:mysql://localhost:3306/usermanagement","root",null);
 			return connection;
 		}
 		
