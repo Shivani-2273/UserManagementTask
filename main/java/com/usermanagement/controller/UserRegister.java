@@ -66,14 +66,18 @@ public class UserRegister extends HttpServlet {
 			logger.info(e.toString());
 
 		}
+		
+		
+		
 
 	}
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-	
+		
 		User user = new User();
+		
 		try {
 			AddressService addressService = new AddressServiceImpl();
 			UserService userService = new UserServiceImpl();
@@ -98,7 +102,9 @@ public class UserRegister extends HttpServlet {
 			    buffer.append(lang[i]+",");
 			}
 			String languages = buffer.toString();
-			user.setLanguages(languages);
+			String savedString=languages.substring(0, languages.length()-1);
+
+			user.setLanguages(savedString);
 	
 			
 			//set password in encrypted format
@@ -132,10 +138,13 @@ public class UserRegister extends HttpServlet {
 				loopCounter++;
 			}
 		
+			
 			//get username from url to redirect page
+			
 			HttpSession session=request.getSession();
 			String userName=(String) session.getAttribute("userName");
 			if(userName!=null) {
+				
 				response.sendRedirect("AdminDashboard.jsp");
 			}else {
 				response.sendRedirect("UserLogin.jsp");

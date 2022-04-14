@@ -3,10 +3,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@page import="com.usermanagement.model.User"%>
 <%@page import="com.usermanagement.model.Address"%>
+<%
+User user = (User) session.getAttribute("CurrentUser");
 
+
+%>
 <!DOCTYPE html>
 
-<html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
+<html x-data="data()" lang="en">
 <head>  
 
 <style>
@@ -55,7 +59,7 @@
 
 <body>
 
-	<div class="flex flex-row w-full h-screen bg-gray-50 dark:bg-gray-900" style="height:100vh"
+	<div class="flex flex-row w-full h-screen dark:bg-gray-900" style="height:100vh"
 		:class="{ 'overflow-hidden': isSideMenuOpen}">
 		<!-- Desktop sidebar -->
 		
@@ -186,7 +190,7 @@
 					
 				</div>
 			</header>
-						<main class="h-screen  w-4/5  mx-auto  ">
+						<main class="w-4/5  mx-auto  ">
 						<div class="w-2/3 mx-auto mt-10 text-center ">
 					
 						<h1 class="font-large my-2 text-4xl">Your Profile</h1>
@@ -235,10 +239,11 @@
 							</c:forEach>		
 					</table>
 					</div>
-						</main>
-		
-						
-						
+
+				</main>						
+	<div class="border-t-2 h-24 border-b-0 border-l-0 border-r-0 border-gray-300 shadow grid content-center justify-center w-full ">
+		<p class="footer">&#169; 2022 Copyright:<a href="https://mdbootstrap.com/education/bootstrap/"> Inexture.com</a></p>
+	</div>
 			</div>
 		
 		</div>

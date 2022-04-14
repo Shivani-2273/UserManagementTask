@@ -5,6 +5,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -17,9 +18,10 @@ import com.usermanagement.model.User;
 public class UserServiceImpl implements UserService {
 	
 	UserDAO userDao=new UserDAOImpl();
+	
 	@Override
-	public boolean compareLoginDetails(User obj) throws ClassNotFoundException, SQLException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException {
-		boolean flag=userDao.userLogin(obj);
+	public boolean compareLoginDetails(User obj,Map<String,String> message) throws ClassNotFoundException, SQLException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException {
+		boolean flag=userDao.userLogin(obj,message);
 		return flag;
 	}
 

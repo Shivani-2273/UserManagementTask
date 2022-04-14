@@ -17,17 +17,6 @@ public class AddressServiceImpl implements AddressService {
 
 	}
 
-	@Override
-	public List<Address> getDefaultAddress(int user_id) throws ClassNotFoundException, SQLException {
-		List<Address> list = addressDao.getDefaultAddress(user_id);
-		return list;
-	}
-
-	@Override
-	public List<Address> getOtherAddress(int user_id) throws ClassNotFoundException, SQLException {
-		List<Address> list = addressDao.getOtherAddress(user_id);
-		return list;
-	}
 
 	@Override
 	public void updateAddress(int userId,Address addr_obj) throws SQLException {

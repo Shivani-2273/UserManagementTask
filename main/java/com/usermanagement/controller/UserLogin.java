@@ -5,7 +5,9 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.crypto.BadPaddingException;
@@ -44,21 +46,7 @@ public class UserLogin extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		//get user address on change of toggel button
-		AddressService addressService = new AddressServiceImpl();
-		int userId = Integer.parseInt(request.getParameter("userId"));
-		logger.info("userId"+userId);
 		
-		try {
-			//get address into list
-			List<Address> addressDetails = addressService.getOtherAddress(userId);
-			HttpSession session = request.getSession();
-			//store data into list
-			session.setAttribute("addressDetails", addressDetails);
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		}
-
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -69,7 +57,10 @@ public class UserLogin extends HttpServlet {
 			// set email id and password for login
 			user.setEmail(request.getParameter("email"));
 			String password = request.getParameter("password");
-		
+			Map<String, String> message = new HashMap<String, String>();
+			request.setAttribute("message", message);
+
+			
 			// password as encrypted format
 			String input = password;
 			byte[] encryptionBytes = com.usermanagement.utility.Encryption_Decryption.encrypt(input);
@@ -81,7 +72,11 @@ public class UserLogin extends HttpServlet {
 			HttpSession session = request.getSession();
 			AddressService addressService=new AddressServiceImpl();
 
-			isValid = userService.compareLoginDetails(user);
+			if(message.isEmpty()) {
+				isValid = userService.compareLoginDetails(user,message);
+			}
+			
+			
 
 			if (isValid) {
 				if (user.getIsAdmin()) {
@@ -108,8 +103,7 @@ public class UserLogin extends HttpServlet {
 					List<Address> addressDetails = addressService.getAddress(userId);
 					session.setAttribute("addressDetails", addressDetails);
 
-					// getall address
-					
+					// getall address on edit profile page
 					List<Address> allAddressList = addressService.getAddress(userId);
 					session.setAttribute("allAddressList", allAddressList);
 

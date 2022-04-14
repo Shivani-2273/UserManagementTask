@@ -17,29 +17,10 @@ public interface AddressDAO {
 	void addAddress(int userId, Address addr_obj) throws SQLException;
 
 	/**
-	 * This method will list default address details
-	 * 
-	 * @param user_id
-	 * @return
-	 * @throws SQLException 
-	 */
-	List<Address> getDefaultAddress(int user_id) throws SQLException;
-
-	/**
-	 * This method will list other address
-	 * 
-	 * @param user_id
-	 * @return
-	 * @throws SQLException 
-	 */
-	List<Address> getOtherAddress(int user_id) throws SQLException;
-
-	/**
-	 * This method will update all address details of given user id
-	 * 
+	 * This will update address details(add new,update exisitin & delete exsiting)
 	 * @param userId
 	 * @param addr_obj
-	 * @throws SQLException 
+	 * @throws SQLException
 	 */
 	void updateAddress(int userId, Address addr_obj) throws SQLException;
 

@@ -79,7 +79,7 @@
         </div>
       </div>
     </div>
-      <script src="custom/customValidation.js"></script>
+	<script src="custom/customValidation.js"></script>
   </body>
 </html>
     

@@ -285,26 +285,6 @@
 
 	</div>
 
-
-<script>
-
-/* const downloadCSV=document.querySelector("#download");
-
-downloadCSV.addEventListener("click",() =>{
-	let element=document.createElement("a");
-	element.href="/Login.csv";
-	element.download="Login.csv";
-	
-	document.documentElement.appendChild(element);
-	element.click();
-	
-	//remove element from body
-	document.documentElement.removeChild(element);
-
-	
-})
- */</script>
-	
 	
 </body>
 </html>

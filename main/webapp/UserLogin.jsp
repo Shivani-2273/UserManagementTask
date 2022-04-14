@@ -1,19 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>	
- <%
-    String emailErrorMsg=request.getParameter("emailErrorMsg");
- 
- 	String passErrorMsg=request.getParameter("passErrorMsg");
-    
- 	if(emailErrorMsg!=null){
- 		session.setAttribute("emailErrorMsg",emailErrorMsg);
- 	} 
- 	if(passErrorMsg!=null){
- 		session.setAttribute("passErrorMsg",passErrorMsg);
-
- 	}	
- 	%>
+  <%
+    String message=request.getParameter("message");
+    if(message!=null){
+ 		session.setAttribute("message",message);
+ 	} %>
 <!DOCTYPE html>
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
 <head>
@@ -21,7 +13,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Login</title>
 <style>
-.custom-message{
+.error{
 color:red
 }
 </style>
@@ -57,7 +49,7 @@ color:red
 								class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
 								name="email" placeholder="Jane Doe" id="email" />
 								 <span id="email_error"></span>
-								<span class="custom-message">${emailErrorMsg}</span>
+								
 																 
 							</label>
 							
@@ -68,14 +60,14 @@ color:red
 								class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
 								placeholder="***************" name="password" id="password" type="password" />
 								  <span id="password_error"></span>
-								 <span class="custom-message">${passErrorMsg}</span>
+								 
 								 
 							</label>
 
 							<!-- You should use a button here, as the anchor is only used for the example  -->
 							<input type="submit" value="Log In"
 								class="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-								
+								<span class="error">${message.message}</span>
 						</form>
 						<hr class="my-8" />
 						<a href="ForgotPassword.jsp" class="flex items-center justify-center w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray">
@@ -95,7 +87,7 @@ color:red
 			</div>
 		</div>
 	</div>
-	  <script src="custom/customValidation.js"></script>
+	<script src="custom/customValidation.js"></script>
 	
 </body>
 </html>

@@ -15,24 +15,7 @@ public interface AddressService {
 	 * @throws SQLException
 	 */
 	 void addAddress(int userId,Address addr_obj) throws ClassNotFoundException, SQLException;
-	
-	/**
-	 * This method will list default address details
-	 * @param user_id
-	 * @return
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
-	 */
-	 List<Address> getDefaultAddress(int user_id) throws ClassNotFoundException, SQLException;
-	
-	/**
-	 * This method will list other address details
-	 * @param user_id
-	 * @return
-	 * @throws SQLException 
-	 * @throws ClassNotFoundException 
-	 */
-	 List<Address> getOtherAddress(int user_id) throws ClassNotFoundException, SQLException;
+
 	
 	/**
 	 * This will update address details of given user id

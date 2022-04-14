@@ -4,7 +4,6 @@ $(document).ready(function() {
 
 	var sDateError = false;
 	var eDateError = false;
-	const downloadCSV = document.querySelector("#download");
 
 	function check_startDate() {
 		var sDate = $("#startDate").val();
@@ -29,30 +28,6 @@ $(document).ready(function() {
 		}
 	}
 
-
-	/*function downloadCSV() {
-
-		downloadCSV.addEventListener("click", () => {
-			
-
-		});
-		var element = document.createElement("a");
-
-		element.href = "/Login.csv";
-		element.download = "Login.csv";
-
-		element.setAttribute(element.href, "Login.csv");
-		element.style.display = 'none';
-
-
-		document.body.appendChild(element);
-		element.click();
-
-		//remove element from body
-		document.body.removeChild(element);
-
-
-	}*/
 
 
 	$("#csvDownload").submit(function() {

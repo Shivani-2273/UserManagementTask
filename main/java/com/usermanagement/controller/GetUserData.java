@@ -33,11 +33,12 @@ public class GetUserData extends HttpServlet {
      */
     public GetUserData() {
         super();
-        // TODO Auto-generated constructor stub
+      
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	doPost(request,response);
+ 
     }
     	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

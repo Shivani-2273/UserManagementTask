@@ -51,61 +51,8 @@ public class AddressDAOImpl implements AddressDAO {
 		}
 	}
 
-	@Override
-	public List<Address> getDefaultAddress(int user_id) throws SQLException {
-		List<Address> list = new ArrayList<Address>();
-
-		try {
-			pstmt = connection.prepareStatement("select * from address where user_id =? and is_default=1");
-			pstmt.setInt(1, user_id);
-			res = pstmt.executeQuery();
-			while (res.next()) {
-				Address obj = new Address();
-				obj.setAddressId(res.getString("address_id"));
-				obj.setUserId(res.getInt("user_id"));
-				obj.setAddressLine(res.getString("street_address_line"));
-				obj.setCity(res.getString("city"));
-				obj.setState(res.getString("state"));
-				obj.setPin(res.getString("pin"));
-
-				list.add(obj);
-				logger.info("default address" + obj.toString());
-			}
-		} catch (SQLException e) {
-			logger.info(e.toString());
-
-		}finally {
-			res.close();
-		}
-		
-		return list;
-
-	}
-
-	@Override
-	public List<Address> getOtherAddress(int user_id) throws SQLException {
-		List<Address> list = new ArrayList<Address>();
-		try {
-			pstmt = connection.prepareStatement("select * from address where user_id =? and is_default=0");
-			pstmt.setInt(1, user_id);
-			res = pstmt.executeQuery();
-			while (res.next()) {
-				Address obj = new Address();
-				obj.setAddressLine(res.getString("street_address_line"));
-				obj.setCity(res.getString("city"));
-				obj.setState(res.getString("state"));
-				obj.setPin(res.getString("pin"));
-				list.add(obj);
-				logger.info("Other address" + obj.toString());
-			}
-		} catch (SQLException e) {
-			logger.info(e.toString());
-
-		}finally {
-			res.close();
-		}
-		return list;
-	}
+	
+	
 
 	public void deleteAddress(String addressId[]) {
 		try {

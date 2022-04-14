@@ -5,6 +5,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -25,7 +26,7 @@ public interface UserDAO {
 	 * @throws InvalidKeyException
 	 * @throws SQLException 
 	 */
-	 boolean userLogin(User obj) throws InvalidKeyException, IllegalBlockSizeException, BadPaddingException,
+	 boolean userLogin(User obj,Map<String,String> message) throws InvalidKeyException, IllegalBlockSizeException, BadPaddingException,
 			NoSuchAlgorithmException, NoSuchPaddingException, SQLException;
 
 	/**

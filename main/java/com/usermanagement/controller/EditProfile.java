@@ -1,8 +1,10 @@
 package com.usermanagement.controller;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -53,7 +55,6 @@ public class EditProfile extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 		HttpSession session = request.getSession();
 		@SuppressWarnings("unchecked")
 		List<Address> list = (List<Address>) session.getAttribute("allAddressList");
@@ -73,20 +74,29 @@ public class EditProfile extends HttpServlet {
 
 
 			String[] lang = request.getParameterValues("language");
-			StringBuffer buf = new StringBuffer();
+			StringBuffer buffer = new StringBuffer();
 			for (int i = 0; i < lang.length; ++i) {
-			    buf.append(lang[i]+",");
+			    buffer.append(lang[i]+",");
 			}
-			String languages = buf.toString();
-			user.setLanguages(languages);
+			String languages = buffer.toString();
+			String savedString=languages.substring(0, languages.length()-1);
+
+			user.setLanguages(savedString);
 			
 			user.setBirthDate(request.getParameter("birthDate"));
 			user.setGender(request.getParameter("gender"));
 
 			Part img_file = request.getPart("img");
-
-			InputStream image = img_file.getInputStream();
-			user.setImage(image);
+			if(img_file.getSize() == 0) {
+				String base64Image=request.getParameter("oldImg");
+				InputStream imageStream=new ByteArrayInputStream(base64Image.getBytes());
+				InputStream is=Base64.getDecoder().wrap(imageStream);
+				user.setImage(is);
+			}else {
+				InputStream image = img_file.getInputStream();
+				user.setImage(image);
+			}			
+			
 			// call update profile method to update user details
 			int userId = userService.updateProfile(user);
 
@@ -99,6 +109,7 @@ public class EditProfile extends HttpServlet {
 
 			// get address id from hidden field
 			String[] addressId = request.getParameterValues("addressId[]");
+//			14.04		
 			List<String> addressIdList = Arrays.asList(addressId);
 			String remove = "";
 			for (int i = 0; i < addrId.length; i++) {
@@ -107,6 +118,16 @@ public class EditProfile extends HttpServlet {
 				}
 			}
 
+//			StringBuffer buf=new StringBuffer();
+//			for (int i = 0; i < addrId.length; i++) {
+//				buf.append(addrId[i]+" ");
+//			}
+//			String remove=buf.toString();
+			
+			
+			
+			
+			
 			// get address details and store into array
 			String[] addressLine = request.getParameterValues("Address[]");
 			String[] city = request.getParameterValues("City[]");
@@ -138,11 +159,12 @@ public class EditProfile extends HttpServlet {
 			} else {
 				
 				List<User> Profilelist = userService.displayProfile(user);
-				int user_id = Profilelist.get(0).getUserId();
 				session.setAttribute("profileData", Profilelist);
-				List<Address> addressDetails = addressService.getAddress(user_id);
+				List<Address> addressDetails = addressService.getAddress(userId);
 				session.setAttribute("addressDetails", addressDetails);
-				
+				List<Address> allAddressList = addressService.getAddress(userId);
+				session.setAttribute("allAddressList", allAddressList);
+				session.setAttribute("CurrentUser", user);
 				response.sendRedirect("UserDashboard.jsp");
 			}
 

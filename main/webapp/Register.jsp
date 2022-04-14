@@ -1,4 +1,3 @@
-
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -10,10 +9,7 @@
 User user = (User) session.getAttribute("CurrentUser");
 
 String userName = request.getParameter("user");
-
 session.setAttribute("userName", userName);
-
-
 %>
 
 <!DOCTYPE html>
@@ -59,12 +55,13 @@ session.setAttribute("userName", userName);
 <script src="assets/js/init-alpine.js"></script>
 
 </head>
-	
+
 <body>
 
 	<c:set var="user" scope="session" value="${sessionScope.CurrentUser}" />
- 
- 	<c:set var="profile" value='<%= request.getParameter("user") %>' scope="request"/> 
+
+	<c:set var="profile" value='<%=request.getParameter("user")%>'
+		scope="request" />
 
 
 	<form action="RegisterURL" method="POST" enctype='multipart/form-data'
@@ -82,26 +79,33 @@ session.setAttribute("userName", userName);
 		</div> -->
 		<div class="flex flex-row w-full ">
 			<label class=" mt-2 mt-4 mb-2 text-md font-semibold"> <span
-				class="text-gray-700 dark:text-gray-400">Upload Image</span><br />
-				<input type="file" id="image" name="img" onchange="readURL(this);"
-				class="self-start w-full p-1 mt-1 text-md focus:outline-none focus:border-none">
-				<span id="img_error"></span>
-			</label> 
+						class="text-gray-700 dark:text-gray-400">Upload Image</span><br />
+						<input type="file" id="image" class="myimage" name="img"
+						onchange="readURL(this);"
+						class="self-start w-full p-1 mt-1 text-md focus:outline-none focus:border-none">
+						
+						<input type="hidden" value="${user.base64Image}" name="oldImg" />
+					</label>
 			<c:choose>
-			<c:when test="${profile == 'userEdit' || profile == 'adminEdit' }">
-				<img src="data:image/jpg;base64,${user.base64Image}" id="blah"
-				style="margin-left:auto;margin-right:auto;width:120px;border-radius:20%;height:150px" class="mx-auto h-170" />
-				
-			</c:when>
-			<c:otherwise>
-				<img src="" id="blah" class="mx-auto h-170" />
-				
-			</c:otherwise>
-		</c:choose>
-			
+				<c:when test="${profile == 'userEdit' || profile == 'adminEdit' }">
+					
+					<img src="data:image/jpg;base64,${user.base64Image}" id="blah"
+						style="margin-left: auto; margin-right: auto; width: 120px; border-radius: 20%; height: 150px"
+						class="mx-auto h-170" />
+
+				</c:when>
+				<c:otherwise>
+					
+					<img src="" id="blah" class="mx-auto h-170" />
+
+				</c:otherwise>
+			</c:choose>
+
 
 
 		</div>
+
+		
 
 		<div class="flex flex-col md:flex-row gap-4 md:gap-8">
 			<div class="w-full">
@@ -134,8 +138,7 @@ session.setAttribute("userName", userName);
 					class="text-gray-700 dark:text-gray-400">Email</span> <input
 					type="text" name="email" id="email" value="${user.email}"
 					class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-					placeholder="JaneDoeXX@gmail.com" /> 
-					<span id="email_error"></span>
+					placeholder="JaneDoeXX@gmail.com" /> <span id="email_error"></span>
 					<span id="EmailError"></span>
 
 
@@ -213,12 +216,14 @@ session.setAttribute("userName", userName);
 			<label class="block mt-2 mt-4 mb-2 text-md font-semibold"> <span
 				class="text-gray-700 dark:text-gray-400">Known Language</span><br />
 				<input type="checkbox" class="mt-2 mr-3" name="language"
-				value="Gujarati" ${fn:contains(user.languages,'Gujarati') ? 'checked':'' }> <label
+				value="Gujarati"
+				${fn:contains(user.languages,'Gujarati') ? 'checked':'' }> <label
 				class="text-gray-700 dark:text-gray-400">Gujarati</label><br /> <input
-				type="checkbox" class="mt-2 mr-3" name="language" value="Hindi" ${fn:contains(user.languages,'Hindi') ? 'checked':'' }>
-				<label class="text-gray-700 dark:text-gray-400">Hindi</label><br />
-				<input type="checkbox" class="mt-2 mr-3" name="language"
-				value="English" ${fn:contains(user.languages,'English') ? 'checked':'' }> <label
+				type="checkbox" class="mt-2 mr-3" name="language" value="Hindi"
+				${fn:contains(user.languages,'Hindi') ? 'checked':'' }> <label
+				class="text-gray-700 dark:text-gray-400">Hindi</label><br /> <input
+				type="checkbox" class="mt-2 mr-3" name="language" value="English"
+				${fn:contains(user.languages,'English') ? 'checked':'' }> <label
 				class="text-gray-700 dark:text-gray-400">English</label><br /> <span
 				id="lang_error"></span>
 
@@ -226,214 +231,240 @@ session.setAttribute("userName", userName);
 
 		</div>
 
-	
-				
-	<c:choose>
-		<c:when test="${profile == 'userEdit' || profile == 'adminEdit' }">
-			
-			
-			<div id="main-container">
-			<span class="text-gray-700 dark:text-gray-400 text-lg font-semibold">Address</span>
-				<c:forEach items="${allAddressList}" var="allAddressList">
-				<div class="panel card container-item mb-2">
-					<div class="panel-body">
-						<div class="panel-body pl-2 pr-2 pb-2">
-							
-							<input type="hidden" name="addressId[]"
-                                value="${allAddressList.addressId }">
-
-							<%-- <input type="radio" id="is_default" class="mt-3 bg-black"
-								name="is_default[]" value="1"  ${allAddressList.is_default == '1' ? 'checked':''}><span
-								class="text-gray-700 mr-4 dark:text-gray-400"> Select Default</span> --%>
-												
-								
-								 <label class="block mt-2 text-md font-semibold"><span class="text-gray-700 dark:text-gray-400">Street
-									Address</span> 
-								<input type="text" name="Address[]" id="address" value="${allAddressList.addressLine}"
-								class="w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" />
-								<span id="aLine_error"></span>
 
 
-							</label>
-							<div class="flex flex-row gap-8">
-								<div class="w-full">
-									<label
-										class="block mt-2 text-gray-700 dark:text-gray-400 font-semibold">City
-										<select id="city" name="City[]"
-										class="w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"">
-											<option value="select">Select your city</option>
-											<option value="Ahmedabad"
-												${ allAddressList.city eq 'Ahmedabad' ? 'selected' :''}>Ahmedabad</option>
-											<option value="Rajkot"
-												${ allAddressList.city eq 'Rajkot' ? 'selected' :''}>Rajkot</option>
-											<option value="Surat"
-												${ allAddressList.city eq 'Surat' ? 'selected' :''}>Surat</option>
-											<option value="Gandhinagar"
-												${ allAddressList.city eq 'Gandhinagar' ? 'selected' :''}>Gandhinagar</option>
-									</select> <span id="city_error"></span>
-									</label>
-								</div>
+		<c:choose>
+			<c:when test="${profile == 'userEdit' || profile == 'adminEdit' }">
 
-								<div class="w-full">
-									<label
-										class="block mt-2 text-gray-700 dark:text-gray-400 font-semibold">State
-										<select id="state" name="State[]"
-										class="w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"">
-											<option value="select">Select your state</option>
-											<option value="Gujarat"
-												${ allAddressList.state eq 'Gujarat' ? 'selected' :''}>Gujarat</option>
-											<option value="Rajsthan"
-												${ allAddressList.state eq 'Rajsthan' ? 'selected' :''}>Rajsthan</option>
-											<option value="Bihar"
-												${ allAddressList.state eq 'Bihar' ? 'selected' :''}>Bihar</option>
-											<option value="Punjab"
-												${ allAddressList.state eq 'Punjab' ? 'selected' :''}>Punjab</option>
-									</select> <span id="state_error"></span>
-									</label>
-								</div>
-							</div>
 
-							<div class="flex flex-row gap-8">
-								<div class="w-full">
-									<label class="block mt-2 mt-4 text-md font-semibold"> <span
-										class="text-gray-700 dark:text-gray-400">Postal Code</span> <input
-										type="number" name="Pin[]" id="pin"
-										value="${allAddressList.pin}"
-										class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-										placeholder="xxxxxx" /> <span id="pin_error"></span>
-									</label>
-								</div>
-								<div class="w-full grid content-center justify-center">
-									<div class="mt-8">
-										<a href="javascript:void(0)"
-											class="remove-item bg-red-500 text-white px-4 py-2 rounded-md">Remove</a>
+				<div id="main-container">
+					<span
+						class="text-gray-700 dark:text-gray-400 text-lg font-semibold">Address</span>
+					<c:forEach items="${allAddressList}" var="allAddressList">
+						<div class="panel card container-item mb-2">
+							<div class="panel-body">
+								<div class="panel-body pl-2 pr-2 pb-2">
+
+									<input type="hidden" name="addressId[]"
+										value="${allAddressList.addressId }">
+										
+										
+										<!--  <input
+										type="radio" id="is_default" class="mt-3 bg-black"
+										name="is_default[]" value="0"><span
+										class="text-gray-700 mr-4 dark:text-gray-400"> Select
+										Default</span> 
+										 -->
+										
+										<label class="block mt-2 text-md font-semibold"><span
+										class="text-gray-700 dark:text-gray-400">Street Address</span>
+										<input type="text" name="Address[]" id="address"
+										value="${allAddressList.addressLine}"
+										class="w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" />
+										<span id="aLine_error"></span> </label>
+									<div class="flex flex-row gap-8">
+										<div class="w-full">
+											<label
+												class="block mt-2 text-gray-700 dark:text-gray-400 font-semibold">City
+												<select id="city" name="City[]"
+												class="w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"">
+													<option value="select">Select your city</option>
+													<option value="Ahmedabad"
+														${ allAddressList.city eq 'Ahmedabad' ? 'selected' :''}>Ahmedabad</option>
+													<option value="Rajkot"
+														${ allAddressList.city eq 'Rajkot' ? 'selected' :''}>Rajkot</option>
+													<option value="Surat"
+														${ allAddressList.city eq 'Surat' ? 'selected' :''}>Surat</option>
+													<option value="Gandhinagar"
+														${ allAddressList.city eq 'Gandhinagar' ? 'selected' :''}>Gandhinagar</option>
+											</select> <span id="city_error"></span>
+											</label>
+										</div>
+
+										<div class="w-full">
+											<label
+												class="block mt-2 text-gray-700 dark:text-gray-400 font-semibold">State
+												<select id="state" name="State[]"
+												class="w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"">
+													<option value="select">Select your state</option>
+													<option value="Gujarat"
+														${ allAddressList.state eq 'Gujarat' ? 'selected' :''}>Gujarat</option>
+													<option value="Rajsthan"
+														${ allAddressList.state eq 'Rajsthan' ? 'selected' :''}>Rajsthan</option>
+													<option value="Bihar"
+														${ allAddressList.state eq 'Bihar' ? 'selected' :''}>Bihar</option>
+													<option value="Punjab"
+														${ allAddressList.state eq 'Punjab' ? 'selected' :''}>Punjab</option>
+											</select> <span id="state_error"></span>
+											</label>
+										</div>
+									</div>
+
+									<div class="flex flex-row gap-8">
+										<div class="w-full">
+											<label class="block mt-2 mt-4 text-md font-semibold">
+												<span class="text-gray-700 dark:text-gray-400">Postal
+													Code</span> <input type="number" name="Pin[]" id="pin"
+												value="${allAddressList.pin}"
+												class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+												placeholder="xxxxxx" /> <span id="pin_error"></span>
+											</label>
+										</div>
+										<div class="w-full grid content-center justify-center">
+											<div class="mt-8">
+												<a href="javascript:void(0)"
+													class="remove-item bg-red-500 text-white px-4 py-2 rounded-md">Remove</a>
+											</div>
+										</div>
+
 									</div>
 								</div>
 
 							</div>
-						</div>
 
-					</div>
+						</div>
+					</c:forEach>
+				</div>
+
+				<div class="grid w-1/2 justify-start">
+					<a class="px-4 py-2 bg-green-400 text-white rounded " id="add-more"
+						href="javascript:;" role="button"><i class="fa fa-plus"></i>
+						Add more address</a>
+
 
 				</div>
-				</c:forEach>
-			</div>
-	
-		 <div class="grid w-1/2 justify-start">
-			<a class="px-4 py-2 bg-green-400 text-white rounded " id="add-more"
-				href="javascript:;" role="button"><i class="fa fa-plus"></i> Add
-				more address</a>
+			</c:when>
+			<c:otherwise>
+
+				<div id="main-container">
+					<span
+						class="text-gray-700 dark:text-gray-400 text-lg font-semibold">Address</span>
+					<div class="panel card container-item mb-2">
+						<div class="panel-body">
+							<div class="panel-body pl-2 pr-2 pb-2">
 
 
-		</div> 
-		</c:when>
-		<c:otherwise>
-			
-			<div id="main-container">
-				<span class="text-gray-700 dark:text-gray-400 text-lg font-semibold">Address</span>
-				<div class="panel card container-item mb-2">
-					<div class="panel-body">
-						<div class="panel-body pl-2 pr-2 pb-2">
+								<!-- <input type="radio" id="is_default" class="mt-3 bg-black"
+									name="is_default[]" value="0">
+									
+									<span
+									class="text-gray-700 mr-4 dark:text-gray-400"> Select
+									Default</span>
+								 -->	
+									
+									 <label class="block mt-2 text-md font-semibold">
+									<span class="text-gray-700 dark:text-gray-400">Street
+										Address</span> <input type="text" name="Address[]" id="address"
+									value=""
+									class="w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" />
+									<span id="aLine_error"></span>
 
 
-							<!-- <input type="radio" id="is_default" class="mt-3 bg-black"
-								name="is_default[]"  value="1"><span
-								class="text-gray-700 mr-4 dark:text-gray-400"> Select
-								Default</span>  -->
-								
-								<label class="block mt-2 text-md font-semibold">
-								<span class="text-gray-700 dark:text-gray-400">Street
-									Address</span> <input type="text" name="Address[]" id="address"
-								value=""
-								class="w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" />
-								<span id="aLine_error"></span>
+								</label>
+								<div class="flex flex-row gap-8">
+									<div class="w-full">
+										<label
+											class="block mt-2 text-gray-700 dark:text-gray-400 font-semibold">City
+											<select id="city" name="City[]"
+											class="w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"">
+												<option value="select">Select your city</option>
+												<option value="Ahmedabad">Ahmedabad</option>
+												<option value="Rajkot">Rajkot</option>
+												<option value="Surat">Surat</option>
+												<option value="Gandhinagar">Gandhinagar</option>
+										</select> <span id="city_error"></span>
+										</label>
+									</div>
 
-
-							</label>
-							<div class="flex flex-row gap-8">
-								<div class="w-full">
-									<label
-										class="block mt-2 text-gray-700 dark:text-gray-400 font-semibold">City
-										<select id="city" name="City[]"
-										class="w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"">
-											<option value="select">Select your city</option>
-											<option value="Ahmedabad">Ahmedabad</option>
-											<option value="Rajkot">Rajkot</option>
-											<option value="Surat">Surat</option>
-											<option value="Gandhinagar">Gandhinagar</option>
-									</select> <span id="city_error"></span>
-									</label>
-								</div>
-
-								<div class="w-full">
-									<label
-										class="block mt-2 text-gray-700 dark:text-gray-400 font-semibold">State
-										<select id="state" name="State[]"
-										class="w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"">
-											<option value="select">Select your state</option>
-											<option value="Gujarat">Gujarat</option>
-											<option value="Rajsthan">Rajsthan</option>
-											<option value="Bihar">Bihar</option>
-											<option value="Punjab">Punjab</option>
-									</select> <span id="state_error"></span>
-									</label>
-								</div>
-							</div>
-
-							<div class="flex flex-row gap-8">
-								<div class="w-full">
-									<label class="block mt-2 mt-4 text-md font-semibold"> <span
-										class="text-gray-700 dark:text-gray-400">Postal Code</span> <input
-										type="number" name="Pin[]" id="pin"
-										value=""
-										class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-										placeholder="xxxxxx" /> <span id="pin_error"></span>
-									</label>
-								</div>
-								<div class="w-full grid content-center justify-center">
-									<div class="mt-8">
-										<a href="javascript:void(0)"
-											class="remove-item bg-red-500 text-white px-4 py-2 rounded-md">Remove</a>
+									<div class="w-full">
+										<label
+											class="block mt-2 text-gray-700 dark:text-gray-400 font-semibold">State
+											<select id="state" name="State[]"
+											class="w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"">
+												<option value="select">Select your state</option>
+												<option value="Gujarat">Gujarat</option>
+												<option value="Rajsthan">Rajsthan</option>
+												<option value="Bihar">Bihar</option>
+												<option value="Punjab">Punjab</option>
+										</select> <span id="state_error"></span>
+										</label>
 									</div>
 								</div>
 
+								<div class="flex flex-row gap-8">
+									<div class="w-full">
+										<label class="block mt-2 mt-4 text-md font-semibold">
+											<span class="text-gray-700 dark:text-gray-400">Postal
+												Code</span> <input type="number" name="Pin[]" id="pin" value=""
+											class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+											placeholder="xxxxxx" /> <span id="pin_error"></span>
+										</label>
+									</div>
+									<div class="w-full grid content-center justify-center">
+										<div class="mt-8">
+											<a href="javascript:void(0)"
+												class="remove-item bg-red-500 text-white px-4 py-2 rounded-md">Remove</a>
+										</div>
+									</div>
+
+								</div>
 							</div>
+
 						</div>
 
 					</div>
+				</div>
+
+				<div class="grid w-1/2 justify-start">
+					<a class="px-4 py-2 bg-green-400 text-white rounded " id="add-more"
+						href="javascript:;" role="button"><i class="fa fa-plus"></i>
+						Add more address</a>
+
 
 				</div>
-			</div>
-		
-		<div class="grid w-1/2 justify-start">
-			<a class="px-4 py-2 bg-green-400 text-white rounded " id="add-more"
-				href="javascript:;" role="button"><i class="fa fa-plus"></i> Add
-				more address</a>
+
+			</c:otherwise>
+		</c:choose>
 
 
-		</div>
-						
-		</c:otherwise>
-	</c:choose>
-	
-	<c:choose>
-		<c:when test="${profile == 'userEdit' || profile == 'adminEdit' }">
-		<input type="submit" value="Register" id="registerButton"
-			class=" w-50% px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-		
-		<a href="" id="Cancle"
-			class=" w-50% px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Cancel</a>
-		
+		<c:choose>
+			<c:when test="${profile == 'userEdit'  || profile == 'adminEdit'}">
+				<input type="submit" value="Update Profile" 
+			class=" px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+
+			<a href="" id="Cancel"
+			class=" px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+			Cancle
+			</a>
+			</c:when>
+			<c:otherwise>
+				<input type="submit" value="Register" id="registerButton"
+			class="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+
+			</c:otherwise>
+		</c:choose>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		
 		<hr class="my-8" />
-	</c:when>
-	<c:otherwise>
-	<input type="submit" value="Register" id="registerButton"
-			class=" w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-		<hr class="my-8" />
-	</c:otherwise>
-	</c:choose>
-				
 
 		<p class="mt-4">
 			<a
@@ -472,97 +503,72 @@ session.setAttribute("userName", userName);
 		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.js"></script>
 	<script src="https://cdn.ckeditor.com/4.5.1/standard/ckeditor.js"></script>
 	<script src="custom/cloneData.js" type="text/javascript"></script>
-	<script src="custom/customValidation.js"></script>
-
-
-
-
-	<script>
-		$('a#add-more').cloneData({
-			mainContainerId : 'main-container', // Main container Should be ID
-			cloneContainer : 'container-item', // Which you want to clone
-			removeButtonClass : 'remove-item', // Remove button for remove cloned HTML
-			removeConfirm : true, // default true confirm before delete clone item
-			removeConfirmMessage : 'Are you sure want to delete?', // confirm delete message
-			minLimit : 1,
-			defaultRender : 1,
-		});
-	</script>
-	<script>
-		/* $('#is_default').click(
-				function() {
-					var val = $("input[name='is_default[]']:checked").val();
-					var one = 1;
-					if (val == 'on') {
-						alert("hi");
-						$("input[name='is_default[]'][value=" + one + "]")
-								.prop('checked', true);
-						alert("chnage=" + val);
-					} 
-				}); */
-		$(document).ready(function() {
-			var parsed = new URL(location);
-			var userName = parsed.searchParams.get("user");
-			if (userName === 'admin') {
-				$(".dLogin").hide();
-				//$("#blah").removeAttr("style")		
-
-			}  else if (userName === 'userEdit') {
-				$(".dLogin").hide();
-				$(".header_tag").text("Update Profile");
-				$("#registerButton").prop("value", "Update Profile");
-				$("#password").attr('readonly', true);
-				$("#Cpassword").attr('readonly', true);
-				$("#email").attr('readonly', true);
-				$("#register").attr('action', 'EditProfile');
-				$("#Cancle").attr("href","UserDashboard.jsp");
-			}
-			else if(userName ==='adminEdit'){
+	
+	<script src="custom/validate.js"></script>
 				
-				$(".dLogin").hide();
-				$(".header_tag").text("Update Profile");
-				$("#registerButton").prop("value", "Update Profile");
-				$("#password").attr('readonly', true);
-				$("#Cpassword").attr('readonly', true);
-				$("#email").attr('readonly', true);
-				$("#register").attr('action', 'EditProfile');
-				$("#Cancle").attr("href","AdminDashboard.jsp");
-			
-			}
-			
-			
-			//email ajax validation
-			
+				
+	
 
-				$("#email").keyup(function(){
-					var EmailAddress = $("#email").val();
-					$.ajax({
-						type : 'GET',
-						data : {
-							email : EmailAddress
-						},
-						url : 'DeleteUser',
-						success : function(result) {
-							if(result == "Matched") {
-								$("#EmailError").html("Email already exist. Please try other!!").css("color","red");
-								$("#registerButton").prop("disabled",true);
-							} else {
-								$("#EmailError").html("");
-								$("#registerButton").prop("disabled",false);
+
+
+	
+	<script>
+		
+		$(document)
+				.ready(
+						function() {
+							var parsed = new URL(location);
+							var userName = parsed.searchParams.get("user");
+							if (userName === 'admin') {
+								$(".dLogin").hide();
+								$("#registerButton").prop("value","Add User");		
+
+							} else if (userName === 'userEdit') {
+								$(".dLogin").hide();
+								$(".header_tag").text("Update Profile");
+								$("#password").attr('readonly', true);
+								$("#Cpassword").attr('readonly', true);
+								$("#email").attr('readonly', true);
+								$("#register").attr('action', 'EditProfile');
+								$("#Cancel").attr('href',"UserDashboard.jsp");
+								
+									
+							} else if (userName === 'adminEdit') {
+
+								$(".dLogin").hide();
+								$(".header_tag").text("Update Profile");
+								$("#password").attr('readonly', true);
+								$("#Cpassword").attr('readonly', true);
+								$("#email").attr('readonly', true);
+								$("#Cancel").attr('href',"AdminDashboard.jsp");
+								$("#register").attr('action', 'EditProfile');
+
+								
+
 							}
-						}
-					});
-				});
-			
-			
-			
-				var selectedRadio=$("#is_default").value();
-				alert(selectedRadio);
-			
-			
-			
-			
-		});	
+
+							//email ajax validation
+							$("#email").keyup(function () {
+							    var EmailAddress = $("#email").val();
+							        $.ajax({
+							            type: 'GET',
+							                data: {
+							                        email: EmailAddress
+							                    },
+							                url: 'DeleteUser',
+							                success: function (result) {
+							                if (result == "Matched") {
+							                    $("#EmailError").html("Email already exist. Please try other!!").css("color","red");
+							                        $("#registerButton").prop("disabled",true);
+							                } else {
+							                    $("#EmailError").html("");
+							                    $("#registerButton") .prop("disabled", false);
+							                        }
+							                    }
+							                });
+							        });
+
+							});
 	</script>
 
 

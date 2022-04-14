@@ -2,7 +2,6 @@ package com.usermanagement.DAO;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -17,6 +16,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import com.usermanagement.model.User;
@@ -28,7 +28,7 @@ public class UserDAOImpl implements UserDAO {
 	private static Logger logger = Logger.getLogger(UserDAOImpl.class.getName());
 	PreparedStatement pstmt = null;
 	Statement stmt=null;
-	ResultSet rs=null;
+	ResultSet rs = null; 
 	public UserDAOImpl() {
 		try {
 			connection = MyConnection.getInstance().getConnection();
@@ -40,9 +40,9 @@ public class UserDAOImpl implements UserDAO {
 
 	
 	@Override
-	public boolean userLogin(User obj) throws SQLException {
+	public boolean userLogin(User obj,Map<String,String> message) throws SQLException {
 		logger.info("User Data"+obj.toString());
-
+		
 		try {
 			pstmt = connection.prepareStatement("select * from user where email=? and password=?");
 			pstmt.setString(1, obj.getEmail());
@@ -74,6 +74,9 @@ public class UserDAOImpl implements UserDAO {
 				pstmt.executeUpdate();
 				return true;
 
+			}else {
+				message.put("message","Invalid  email id and password.");
+				return false;
 			}
 
 		} catch (SQLException e) {
@@ -81,6 +84,9 @@ public class UserDAOImpl implements UserDAO {
 
 		}finally {
 			rs.close();
+			pstmt.close();
+			
+			
 		}
 
 		return false;
@@ -90,6 +96,7 @@ public class UserDAOImpl implements UserDAO {
 	public int userRegister(User obj) throws IOException, SQLException {
 		logger.info("User Data"+obj.toString());
 		int id = 0;
+
 		try {
 			pstmt = connection.prepareStatement(
 					"insert into user(first_name,last_name,email,password,contact_no,date_of_birth,language,gender,profile_image,is_admin) values(?,?,?,?,?,?,?,?,?,0	)");
@@ -125,7 +132,7 @@ public class UserDAOImpl implements UserDAO {
 		List<User> list = new ArrayList<User>();
 		try {
 			pstmt = connection.prepareStatement("select * from user where is_admin=0");
-			 rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				User user = new User();
 				user.setUserId(rs.getInt("user_id"));
@@ -148,7 +155,8 @@ public class UserDAOImpl implements UserDAO {
 			logger.info(e.toString());
 
 		}finally {
-			rs.close();
+				rs.close();
+		
 		}
 		return list;
 
@@ -185,6 +193,7 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public List<User> displayProfile(User user) throws SQLException {
 		List<User> list = new ArrayList<User>();
+
 		try {
 			pstmt=connection.prepareStatement("select * from user where email=? and password=?");
 			pstmt.setString(1,user.getEmail());
@@ -243,7 +252,7 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public void getCSVFile(String startDate,String endDate) throws SQLException {	
-	try {
+		try {
 	
 			File file = new File("S:\\UserLoginInfo_CSV\\Login.csv");
 			Writer w = new OutputStreamWriter(new FileOutputStream(file),Charset.forName("UTF-8").newEncoder());
@@ -274,7 +283,7 @@ public class UserDAOImpl implements UserDAO {
 		} catch (IOException | SQLException e) {
 			logger.info(e.toString());
 		}finally {
-			rs.close();
+				rs.close();
 		}
 		
 	}
@@ -282,7 +291,6 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public boolean checkEmail(String email) throws SQLException {
-		
 		try {
 			pstmt=connection.prepareStatement("select email from user where email=?");
 			pstmt.setString(1, email);
