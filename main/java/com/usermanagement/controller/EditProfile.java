@@ -109,7 +109,7 @@ public class EditProfile extends HttpServlet {
 
 			// get address id from hidden field
 			String[] addressId = request.getParameterValues("addressId[]");
-//			14.04		
+	
 			List<String> addressIdList = Arrays.asList(addressId);
 			String remove = "";
 			for (int i = 0; i < addrId.length; i++) {
@@ -118,12 +118,7 @@ public class EditProfile extends HttpServlet {
 				}
 			}
 
-//			StringBuffer buf=new StringBuffer();
-//			for (int i = 0; i < addrId.length; i++) {
-//				buf.append(addrId[i]+" ");
-//			}
-//			String remove=buf.toString();
-			
+		
 			
 			
 			
